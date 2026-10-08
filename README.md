@@ -3,4 +3,4 @@ Hello, I am Alex, a junior studying statistics and data science at George Washin
 
 This page will serve as my personal portfolio, where you can view all of my analytical in the form of coding projects, recorded content, and much more!
 
-View my data visualizations projects [here](./dataviz.md)
+View my data visualizations projects [here](./dataviz.md).
