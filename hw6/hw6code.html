@@ -1,0 +1,1405 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Alex Mattei">
+<meta name="dcterms.date" content="2026-10-08">
+
+<title>Alex Mattei - DATS 2102 Week 6 Homework</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="hw6code_files/libs/clipboard/clipboard.min.js"></script>
+<script src="hw6code_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="hw6code_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="hw6code_files/libs/quarto-html/popper.min.js"></script>
+<script src="hw6code_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="hw6code_files/libs/quarto-html/anchor.min.js"></script>
+<link href="hw6code_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="hw6code_files/libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="hw6code_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="hw6code_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="hw6code_files/libs/bootstrap/bootstrap-4df2d83d3588621b0d1fbb685efaff60.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+</head>
+
+<body class="quarto-light">
+
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Alex Mattei - DATS 2102 Week 6 Homework</h1>
+                      </div>
+  </div>
+    
+  <div class="quarto-title-meta-author">
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-heading">Affiliation</div>
+    
+      <div class="quarto-title-meta-contents">
+      <p class="author">Alex Mattei <a href="mailto:aem154@gwmail.gwu.edu" class="quarto-title-author-email"><i class="bi bi-envelope"></i></a> </p>
+    </div>
+    <div class="quarto-title-meta-contents">
+          <p class="affiliation">
+              George Washington University
+            </p>
+        </div>
+    </div>
+
+  <div class="quarto-title-meta">
+
+        
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">October 8, 2026</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a>
+  <ul class="collapse">
+  <li><a href="#setup" id="toc-setup" class="nav-link" data-scroll-target="#setup">Setup</a></li>
+  <li><a href="#choosing-a-dataset" id="toc-choosing-a-dataset" class="nav-link" data-scroll-target="#choosing-a-dataset">Choosing a Dataset</a></li>
+  </ul></li>
+  <li><a href="#part-1-dot-plot" id="toc-part-1-dot-plot" class="nav-link" data-scroll-target="#part-1-dot-plot">Part 1: Dot Plot</a>
+  <ul class="collapse">
+  <li><a href="#quick-cleaning" id="toc-quick-cleaning" class="nav-link" data-scroll-target="#quick-cleaning">Quick Cleaning</a></li>
+  <li><a href="#small-sample" id="toc-small-sample" class="nav-link" data-scroll-target="#small-sample">Small Sample</a></li>
+  <li><a href="#creation-of-dot-plot" id="toc-creation-of-dot-plot" class="nav-link" data-scroll-target="#creation-of-dot-plot">Creation of Dot Plot</a></li>
+  </ul></li>
+  <li><a href="#part-2-slope-chart" id="toc-part-2-slope-chart" class="nav-link" data-scroll-target="#part-2-slope-chart">Part 2: Slope Chart</a>
+  <ul class="collapse">
+  <li><a href="#data-setup" id="toc-data-setup" class="nav-link" data-scroll-target="#data-setup">Data Setup</a></li>
+  <li><a href="#creation-of-slope-plot" id="toc-creation-of-slope-plot" class="nav-link" data-scroll-target="#creation-of-slope-plot">Creation of Slope Plot</a></li>
+  <li><a href="#slight-pivot" id="toc-slight-pivot" class="nav-link" data-scroll-target="#slight-pivot">Slight Pivot</a></li>
+  </ul></li>
+  <li><a href="#part-3-small-multiples-plot" id="toc-part-3-small-multiples-plot" class="nav-link" data-scroll-target="#part-3-small-multiples-plot">Part 3: Small Multiples Plot</a></li>
+  <li><a href="#part-4-slight-tweak-with-normalization" id="toc-part-4-slight-tweak-with-normalization" class="nav-link" data-scroll-target="#part-4-slight-tweak-with-normalization">Part 4: Slight Tweak with Normalization</a>
+  <ul class="collapse">
+  <li><a href="#dataset-tweak-recreation-of-plot" id="toc-dataset-tweak-recreation-of-plot" class="nav-link" data-scroll-target="#dataset-tweak-recreation-of-plot">Dataset Tweak + Recreation of Plot</a></li>
+  </ul></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  </ul>
+</nav>
+</div>
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>Hello, and welcome to my Week 6 assignment! This week, we’ll be looking into how to compare groups using data visualization techniques. Using a dataset with at least two groups, we’ll draw comparisons using different kinds of charts and plots. Let’s first set up our libraries:</p>
+<section id="setup" class="level3">
+<h3 class="anchored" data-anchor-id="setup">Setup</h3>
+<div id="7e780aad-cba1-444a-93c3-2c77798028c2" class="cell" data-execution_count="89">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.express <span class="im">as</span> px</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.io <span class="im">as</span> pio</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> math</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="choosing-a-dataset" class="level3">
+<h3 class="anchored" data-anchor-id="choosing-a-dataset">Choosing a Dataset</h3>
+<p>For this assignment, we want a dataset with at least two groups (for comparison), as well as one that has different conditions or time periods. Here, we’ll use an Olympic medal dataset that gives us information on over 270,000 olympic competitors in both the Summer and Winter olympics games over the past several competitions. Let’s load in the dataset and take a look at what we’re working with:</p>
+<div id="a2885c39-6095-4d0c-a07f-38b6e22cb31e" class="cell" data-execution_count="13">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2021/2021-07-27/olympics.csv"</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>olympics <span class="op">=</span> pd.read_csv(url)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>olympics.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="13">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">id</th>
+<th data-quarto-table-cell-role="th">name</th>
+<th data-quarto-table-cell-role="th">sex</th>
+<th data-quarto-table-cell-role="th">age</th>
+<th data-quarto-table-cell-role="th">height</th>
+<th data-quarto-table-cell-role="th">weight</th>
+<th data-quarto-table-cell-role="th">team</th>
+<th data-quarto-table-cell-role="th">noc</th>
+<th data-quarto-table-cell-role="th">games</th>
+<th data-quarto-table-cell-role="th">year</th>
+<th data-quarto-table-cell-role="th">season</th>
+<th data-quarto-table-cell-role="th">city</th>
+<th data-quarto-table-cell-role="th">sport</th>
+<th data-quarto-table-cell-role="th">event</th>
+<th data-quarto-table-cell-role="th">medal</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>1</td>
+<td>A Dijiang</td>
+<td>M</td>
+<td>24.0</td>
+<td>180.0</td>
+<td>80.0</td>
+<td>China</td>
+<td>CHN</td>
+<td>1992 Summer</td>
+<td>1992</td>
+<td>Summer</td>
+<td>Barcelona</td>
+<td>Basketball</td>
+<td>Basketball Men's Basketball</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>2</td>
+<td>A Lamusi</td>
+<td>M</td>
+<td>23.0</td>
+<td>170.0</td>
+<td>60.0</td>
+<td>China</td>
+<td>CHN</td>
+<td>2012 Summer</td>
+<td>2012</td>
+<td>Summer</td>
+<td>London</td>
+<td>Judo</td>
+<td>Judo Men's Extra-Lightweight</td>
+<td>NaN</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>3</td>
+<td>Gunnar Nielsen Aaby</td>
+<td>M</td>
+<td>24.0</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>Denmark</td>
+<td>DEN</td>
+<td>1920 Summer</td>
+<td>1920</td>
+<td>Summer</td>
+<td>Antwerpen</td>
+<td>Football</td>
+<td>Football Men's Football</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>4</td>
+<td>Edgar Lindenau Aabye</td>
+<td>M</td>
+<td>34.0</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>Denmark/Sweden</td>
+<td>DEN</td>
+<td>1900 Summer</td>
+<td>1900</td>
+<td>Summer</td>
+<td>Paris</td>
+<td>Tug-Of-War</td>
+<td>Tug-Of-War Men's Tug-Of-War</td>
+<td>Gold</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>5</td>
+<td>Christine Jacoba Aaftink</td>
+<td>F</td>
+<td>21.0</td>
+<td>185.0</td>
+<td>82.0</td>
+<td>Netherlands</td>
+<td>NED</td>
+<td>1988 Winter</td>
+<td>1988</td>
+<td>Winter</td>
+<td>Calgary</td>
+<td>Speed Skating</td>
+<td>Speed Skating Women's 500 metres</td>
+<td>NaN</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="part-1-dot-plot" class="level2">
+<h2 class="anchored" data-anchor-id="part-1-dot-plot">Part 1: Dot Plot</h2>
+<p>There are several different groups we can compare in this data set, but let’s start with something simple: gender. Let’s compare height of Olympic athletes based on their gender with a simple dot plot. Before that, however, we have to do some minor cleanup in the dataset.</p>
+<section id="quick-cleaning" class="level3">
+<h3 class="anchored" data-anchor-id="quick-cleaning">Quick Cleaning</h3>
+<p>From our above dataset, it’s clear that many of our values for height and weight are missing (it appears to be the case for many of the older observations, such as the ones from the early 1900s), so let’s filter out observations that don’t have a value for both height as well as age, as a precaution:</p>
+<div id="a9343784-cdeb-4423-8d7f-e34c93640b7e" class="cell" data-execution_count="26">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>cleaned_olympics <span class="op">=</span> olympics.dropna(subset <span class="op">=</span> [<span class="st">'age'</span>, <span class="st">'height'</span>])</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>cleaned_olympics.tail()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="26">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">id</th>
+<th data-quarto-table-cell-role="th">name</th>
+<th data-quarto-table-cell-role="th">sex</th>
+<th data-quarto-table-cell-role="th">age</th>
+<th data-quarto-table-cell-role="th">height</th>
+<th data-quarto-table-cell-role="th">weight</th>
+<th data-quarto-table-cell-role="th">team</th>
+<th data-quarto-table-cell-role="th">noc</th>
+<th data-quarto-table-cell-role="th">games</th>
+<th data-quarto-table-cell-role="th">year</th>
+<th data-quarto-table-cell-role="th">season</th>
+<th data-quarto-table-cell-role="th">city</th>
+<th data-quarto-table-cell-role="th">sport</th>
+<th data-quarto-table-cell-role="th">event</th>
+<th data-quarto-table-cell-role="th">medal</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">271111</th>
+<td>135569</td>
+<td>Andrzej ya</td>
+<td>M</td>
+<td>29.0</td>
+<td>179.0</td>
+<td>89.0</td>
+<td>Poland-1</td>
+<td>POL</td>
+<td>1976 Winter</td>
+<td>1976</td>
+<td>Winter</td>
+<td>Innsbruck</td>
+<td>Luge</td>
+<td>Luge Mixed (Men)'s Doubles</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">271112</th>
+<td>135570</td>
+<td>Piotr ya</td>
+<td>M</td>
+<td>27.0</td>
+<td>176.0</td>
+<td>59.0</td>
+<td>Poland</td>
+<td>POL</td>
+<td>2014 Winter</td>
+<td>2014</td>
+<td>Winter</td>
+<td>Sochi</td>
+<td>Ski Jumping</td>
+<td>Ski Jumping Men's Large Hill, Individual</td>
+<td>NaN</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">271113</th>
+<td>135570</td>
+<td>Piotr ya</td>
+<td>M</td>
+<td>27.0</td>
+<td>176.0</td>
+<td>59.0</td>
+<td>Poland</td>
+<td>POL</td>
+<td>2014 Winter</td>
+<td>2014</td>
+<td>Winter</td>
+<td>Sochi</td>
+<td>Ski Jumping</td>
+<td>Ski Jumping Men's Large Hill, Team</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">271114</th>
+<td>135571</td>
+<td>Tomasz Ireneusz ya</td>
+<td>M</td>
+<td>30.0</td>
+<td>185.0</td>
+<td>96.0</td>
+<td>Poland</td>
+<td>POL</td>
+<td>1998 Winter</td>
+<td>1998</td>
+<td>Winter</td>
+<td>Nagano</td>
+<td>Bobsleigh</td>
+<td>Bobsleigh Men's Four</td>
+<td>NaN</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">271115</th>
+<td>135571</td>
+<td>Tomasz Ireneusz ya</td>
+<td>M</td>
+<td>34.0</td>
+<td>185.0</td>
+<td>96.0</td>
+<td>Poland</td>
+<td>POL</td>
+<td>2002 Winter</td>
+<td>2002</td>
+<td>Winter</td>
+<td>Salt Lake City</td>
+<td>Bobsleigh</td>
+<td>Bobsleigh Men's Four</td>
+<td>NaN</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>We’ve cleaned up these missing values, though we still have over 270,000 observations, far too many for an individual dotplot. Therefore, let’s take a random sample of size 100 from our dataset and use it to model the general dataset.</p>
+</section>
+<section id="small-sample" class="level3">
+<h3 class="anchored" data-anchor-id="small-sample">Small Sample</h3>
+<div id="3e251239-f04a-45ce-a31a-ca281bb9c99c" class="cell" data-execution_count="27">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>sampled_olympics <span class="op">=</span> cleaned_olympics.sample(n <span class="op">=</span> <span class="dv">100</span>, random_state <span class="op">=</span> <span class="dv">40</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>sampled_olympics</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="27">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">id</th>
+<th data-quarto-table-cell-role="th">name</th>
+<th data-quarto-table-cell-role="th">sex</th>
+<th data-quarto-table-cell-role="th">age</th>
+<th data-quarto-table-cell-role="th">height</th>
+<th data-quarto-table-cell-role="th">weight</th>
+<th data-quarto-table-cell-role="th">team</th>
+<th data-quarto-table-cell-role="th">noc</th>
+<th data-quarto-table-cell-role="th">games</th>
+<th data-quarto-table-cell-role="th">year</th>
+<th data-quarto-table-cell-role="th">season</th>
+<th data-quarto-table-cell-role="th">city</th>
+<th data-quarto-table-cell-role="th">sport</th>
+<th data-quarto-table-cell-role="th">event</th>
+<th data-quarto-table-cell-role="th">medal</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">57772</th>
+<td>29577</td>
+<td>Evelyn Carolina de Oliveira dos Santos</td>
+<td>F</td>
+<td>23.0</td>
+<td>172.0</td>
+<td>52.0</td>
+<td>Brazil</td>
+<td>BRA</td>
+<td>2008 Summer</td>
+<td>2008</td>
+<td>Summer</td>
+<td>Beijing</td>
+<td>Athletics</td>
+<td>Athletics Women's 200 metres</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">13132</th>
+<td>7138</td>
+<td>Deivy Alexander Balanta Abona</td>
+<td>M</td>
+<td>23.0</td>
+<td>180.0</td>
+<td>77.0</td>
+<td>Colombia</td>
+<td>COL</td>
+<td>2016 Summer</td>
+<td>2016</td>
+<td>Summer</td>
+<td>Rio de Janeiro</td>
+<td>Football</td>
+<td>Football Men's Football</td>
+<td>NaN</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">226242</th>
+<td>113706</td>
+<td>Pete Spaulding</td>
+<td>M</td>
+<td>28.0</td>
+<td>182.0</td>
+<td>72.0</td>
+<td>United States</td>
+<td>USA</td>
+<td>2004 Summer</td>
+<td>2004</td>
+<td>Summer</td>
+<td>Athina</td>
+<td>Sailing</td>
+<td>Sailing Mixed Skiff</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">179826</th>
+<td>90378</td>
+<td>Nikita Aleisha Pablo</td>
+<td>F</td>
+<td>21.0</td>
+<td>170.0</td>
+<td>63.0</td>
+<td>Australia</td>
+<td>AUS</td>
+<td>2016 Summer</td>
+<td>2016</td>
+<td>Summer</td>
+<td>Rio de Janeiro</td>
+<td>Synchronized Swimming</td>
+<td>Synchronized Swimming Women's Duet</td>
+<td>NaN</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">190002</th>
+<td>95429</td>
+<td>Manuel Jess Plaza Reyes</td>
+<td>M</td>
+<td>28.0</td>
+<td>171.0</td>
+<td>61.0</td>
+<td>Chile</td>
+<td>CHI</td>
+<td>1928 Summer</td>
+<td>1928</td>
+<td>Summer</td>
+<td>Amsterdam</td>
+<td>Athletics</td>
+<td>Athletics Men's Marathon</td>
+<td>Silver</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">...</th>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">20068</th>
+<td>10568</td>
+<td>Jerri Arnold Bergstrm</td>
+<td>M</td>
+<td>25.0</td>
+<td>186.0</td>
+<td>82.0</td>
+<td>Sweden</td>
+<td>SWE</td>
+<td>1988 Summer</td>
+<td>1988</td>
+<td>Summer</td>
+<td>Seoul</td>
+<td>Fencing</td>
+<td>Fencing Men's epee, Team</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">147304</th>
+<td>73930</td>
+<td>Ivana Maksimovi-Anui</td>
+<td>F</td>
+<td>26.0</td>
+<td>161.0</td>
+<td>51.0</td>
+<td>Serbia</td>
+<td>SRB</td>
+<td>2016 Summer</td>
+<td>2016</td>
+<td>Summer</td>
+<td>Rio de Janeiro</td>
+<td>Shooting</td>
+<td>Shooting Women's Air Rifle, 10 metres</td>
+<td>NaN</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">96316</th>
+<td>48775</td>
+<td>Noritoshi Hirata</td>
+<td>M</td>
+<td>26.0</td>
+<td>170.0</td>
+<td>61.0</td>
+<td>Japan</td>
+<td>JPN</td>
+<td>1984 Summer</td>
+<td>1984</td>
+<td>Summer</td>
+<td>Los Angeles</td>
+<td>Gymnastics</td>
+<td>Gymnastics Men's Parallel Bars</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">212377</th>
+<td>106629</td>
+<td>Martin Schaudt</td>
+<td>M</td>
+<td>45.0</td>
+<td>185.0</td>
+<td>77.0</td>
+<td>Germany</td>
+<td>GER</td>
+<td>2004 Summer</td>
+<td>2004</td>
+<td>Summer</td>
+<td>Athina</td>
+<td>Equestrianism</td>
+<td>Equestrianism Mixed Dressage, Team</td>
+<td>Gold</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">35156</th>
+<td>18105</td>
+<td>Constantin Carabela</td>
+<td>M</td>
+<td>31.0</td>
+<td>172.0</td>
+<td>72.0</td>
+<td>Romania</td>
+<td>ROU</td>
+<td>1972 Winter</td>
+<td>1972</td>
+<td>Winter</td>
+<td>Sapporo</td>
+<td>Biathlon</td>
+<td>Biathlon Men's 20 kilometres</td>
+<td>NaN</td>
+</tr>
+</tbody>
+</table>
+
+<p>100 rows × 15 columns</p>
+</div>
+</div>
+</div>
+</section>
+<section id="creation-of-dot-plot" class="level3">
+<h3 class="anchored" data-anchor-id="creation-of-dot-plot">Creation of Dot Plot</h3>
+<p>Now, let’s create our dotplot:</p>
+<div id="5467be70-78f8-4493-aca5-49d04cb2f8de" class="cell" data-execution_count="31">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>,<span class="dv">5</span>))</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>plt.plot(sampled_olympics[<span class="st">'height'</span>], sampled_olympics[<span class="st">'sex'</span>], <span class="st">'o'</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Height in Centimeters"</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Sex"</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Height of Olympic Athletes Compared By Sex"</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="hw6code_files/figure-html/cell-6-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>While a relatively uninteresting chart, it allows us view the distribution of heights across our gender; here, we can observe a large disparity between our sex heights that favors men. From our random sample of our large dataset, only three of our female athletes was above 182 cm (6’0), while over 10 male athletes were above that measure. A simple plot like this allows us to draw easy comparisons between the differences in heights of our male and female Olympic athletes, while also helping us observe those distributions within each sex as well.</p>
+</section>
+</section>
+<section id="part-2-slope-chart" class="level2">
+<h2 class="anchored" data-anchor-id="part-2-slope-chart">Part 2: Slope Chart</h2>
+<p>Next, we’ll be using a slope chart to describe changes in certain groups across different periods of time. For this example, we’ll have to do a bit more setup; my vision is to sort our dataset by year listed, aggregate the number of total medals earned in that year per athlete, then compare the number of medals won by country across our range of years. Note that we’ll now drop NA values from our entire dataset, limiting our table to around 30,000 results; we’ll assume that missing values are related to the year they were recorded, so we shouldn’t experience any issue performing the following experiment. Furthermore, we’ll limit our data to 2000’s only (so our chart isn’t too muddied):</p>
+<section id="data-setup" class="level3">
+<h3 class="anchored" data-anchor-id="data-setup">Data Setup</h3>
+<div id="17b5fa55-3b76-4198-8f74-f5f09e8ba13f" class="cell" data-execution_count="51">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>new_olympics <span class="op">=</span> cleaned_olympics.dropna().sort_values(<span class="st">'year'</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>new_olympics[<span class="st">'noc'</span>] <span class="op">=</span> pd.Categorical(new_olympics[<span class="st">'noc'</span>])</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>slope_olympics <span class="op">=</span> (</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    new_olympics.groupby([<span class="st">"year"</span>, <span class="st">"season"</span>, <span class="st">"noc"</span>, <span class="st">"medal"</span>])</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    .size()</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    .unstack(fill_value<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    .reset_index()</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>slope_olympics[<span class="st">'total'</span>] <span class="op">=</span> slope_olympics[[<span class="st">'Bronze'</span>, <span class="st">'Silver'</span>, <span class="st">'Gold'</span>]].<span class="bu">sum</span>(axis <span class="op">=</span> <span class="dv">1</span>)</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>filtered_slope_olympics <span class="op">=</span> slope_olympics[slope_olympics[<span class="st">'year'</span>] <span class="op">&gt;=</span> <span class="dv">2000</span>]</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>filtered_slope_olympics</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="51">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">medal</th>
+<th data-quarto-table-cell-role="th">year</th>
+<th data-quarto-table-cell-role="th">season</th>
+<th data-quarto-table-cell-role="th">noc</th>
+<th data-quarto-table-cell-role="th">Bronze</th>
+<th data-quarto-table-cell-role="th">Gold</th>
+<th data-quarto-table-cell-role="th">Silver</th>
+<th data-quarto-table-cell-role="th">total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">956</th>
+<td>2000</td>
+<td>Summer</td>
+<td>ALG</td>
+<td>3</td>
+<td>1</td>
+<td>1</td>
+<td>5</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">957</th>
+<td>2000</td>
+<td>Summer</td>
+<td>ARG</td>
+<td>3</td>
+<td>0</td>
+<td>17</td>
+<td>20</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">958</th>
+<td>2000</td>
+<td>Summer</td>
+<td>ARM</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">959</th>
+<td>2000</td>
+<td>Summer</td>
+<td>AUS</td>
+<td>54</td>
+<td>60</td>
+<td>69</td>
+<td>183</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">960</th>
+<td>2000</td>
+<td>Summer</td>
+<td>AUT</td>
+<td>0</td>
+<td>3</td>
+<td>1</td>
+<td>4</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">...</th>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">1464</th>
+<td>2016</td>
+<td>Summer</td>
+<td>UKR</td>
+<td>5</td>
+<td>2</td>
+<td>8</td>
+<td>15</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1465</th>
+<td>2016</td>
+<td>Summer</td>
+<td>USA</td>
+<td>71</td>
+<td>138</td>
+<td>54</td>
+<td>263</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">1466</th>
+<td>2016</td>
+<td>Summer</td>
+<td>UZB</td>
+<td>7</td>
+<td>4</td>
+<td>2</td>
+<td>13</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1467</th>
+<td>2016</td>
+<td>Summer</td>
+<td>VEN</td>
+<td>2</td>
+<td>0</td>
+<td>1</td>
+<td>3</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">1468</th>
+<td>2016</td>
+<td>Summer</td>
+<td>VIE</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+
+<p>513 rows × 7 columns</p>
+</div>
+</div>
+</div>
+</section>
+<section id="creation-of-slope-plot" class="level3">
+<h3 class="anchored" data-anchor-id="creation-of-slope-plot">Creation of Slope Plot</h3>
+<p>Now that we’ve cleaned, filtered, and added totals to our data, let’s create a slope plot that compares total medals earned per country based on the year:</p>
+<div id="3e1e0ed4-456e-4f7e-b902-f58e6f550c8b" class="cell" data-execution_count="77">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>years <span class="op">=</span> <span class="bu">sorted</span>(filtered_slope_olympics[<span class="st">"year"</span>].unique())</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>piv <span class="op">=</span> filtered_slope_olympics.pivot(index<span class="op">=</span><span class="st">"noc"</span>, columns<span class="op">=</span><span class="st">"year"</span>, values<span class="op">=</span><span class="st">"total"</span>).dropna()</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">5</span>))</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> noc, row <span class="kw">in</span> piv.iterrows():       </span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    plt.plot(row.index, row.values, marker<span class="op">=</span><span class="st">'o'</span>, label<span class="op">=</span>noc) </span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>plt.xticks(years)                      </span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>plt.margins(x<span class="op">=</span><span class="fl">0.02</span>)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Total Medals Accumulated"</span>)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Total Medals Accumulated Per Country in 2000–2016 Olympic Games"</span>)</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>plt.legend(bbox_to_anchor<span class="op">=</span>(<span class="fl">1.02</span>, <span class="dv">1</span>), loc<span class="op">=</span><span class="st">"upper left"</span>)</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="hw6code_files/figure-html/cell-8-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="slight-pivot" class="level3">
+<h3 class="anchored" data-anchor-id="slight-pivot">Slight Pivot</h3>
+<p>Note how our plot is kind of hard to read; yet, one pattern is very clear: every country seems to earn more metals on the “even years” (2000, 2004, 2008, 2012, 2016) than the odd years. This is because those years correspond to the summer olympics, which has significantly more events than the winter olympics (and thus more events to win). To make our graph more legible and powerful, let’s limit our data to just Summer Olympics:</p>
+<div id="9412a23a-ffdb-48dd-aa6b-a96861e531e3" class="cell" data-execution_count="88">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>summer_years <span class="op">=</span> [<span class="dv">2000</span>, <span class="dv">2004</span>, <span class="dv">2008</span>, <span class="dv">2012</span>, <span class="dv">2016</span>]</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>new_slope_olympics <span class="op">=</span> filtered_slope_olympics[filtered_slope_olympics[<span class="st">'year'</span>].isin(summer_years)]</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>years <span class="op">=</span> <span class="bu">sorted</span>(new_slope_olympics[<span class="st">"year"</span>].unique())</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>piv <span class="op">=</span> new_slope_olympics.pivot(index<span class="op">=</span><span class="st">"noc"</span>, columns<span class="op">=</span><span class="st">"year"</span>, values<span class="op">=</span><span class="st">"total"</span>).dropna()</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">15</span>))</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> noc, row <span class="kw">in</span> piv.iterrows():       </span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    plt.plot(row.index, row.values, marker<span class="op">=</span><span class="st">'o'</span>, label<span class="op">=</span>noc) </span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>plt.xticks(years)                      </span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>plt.margins(x<span class="op">=</span><span class="fl">0.02</span>)</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Year of Competition"</span>)</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Total Medals Accumulated"</span>)</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Total Medals Accumulated Per Country in 2000–2016 Olympic Games"</span>)</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>plt.legend(bbox_to_anchor<span class="op">=</span>(<span class="fl">1.02</span>, <span class="dv">1</span>), loc<span class="op">=</span><span class="st">"upper left"</span>)</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="hw6code_files/figure-html/cell-9-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Despite being a significant improvement over our previous graph, there are still enough countries that regularly compete in the Olympics yet don’t consistently earn medals that the bottom half of our graph is very muddy. However, we are now able to more readily observe some powerful trends between the strongest countries in Olympic competition, such as USA’s unmatched level of domination in international competition. Clearly, there are far too many countries to compare on one singular plot or axis, so let’s use a facet plot (otherwise known as small multiples) to display trends between some of our biggest countries (USA, RUS, GER, GBR) on a country-by-country basis:</p>
+</section>
+</section>
+<section id="part-3-small-multiples-plot" class="level2">
+<h2 class="anchored" data-anchor-id="part-3-small-multiples-plot">Part 3: Small Multiples Plot</h2>
+<div id="6891688a-2924-4462-9e45-c1eb552b4cba" class="cell" data-execution_count="113">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>selected_countries <span class="op">=</span> [<span class="st">'USA'</span>, <span class="st">'RUS'</span>, <span class="st">'GER'</span>, <span class="st">'GBR'</span>]</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>years <span class="op">=</span> [<span class="dv">2000</span>, <span class="dv">2004</span>, <span class="dv">2008</span>, <span class="dv">2012</span>, <span class="dv">2016</span>]</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>facet_olympics <span class="op">=</span> new_slope_olympics[new_slope_olympics[<span class="st">'noc'</span>].isin(selected_countries)]</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>piv_facet <span class="op">=</span> facet_olympics.pivot(index<span class="op">=</span><span class="st">"noc"</span>, columns<span class="op">=</span><span class="st">"year"</span>, values<span class="op">=</span><span class="st">"total"</span>).dropna()</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="bu">len</span>(selected_countries), figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">4</span>),</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>                         sharex<span class="op">=</span><span class="va">True</span>, sharey<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ax, team <span class="kw">in</span> <span class="bu">zip</span>(axes, selected_countries):</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> team <span class="kw">not</span> <span class="kw">in</span> piv_facet.index:      </span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>        ax.set_visible(<span class="va">False</span>)</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">continue</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    y_vals <span class="op">=</span> piv_facet.loc[team, years].values</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    ax.plot(years, y_vals, marker<span class="op">=</span><span class="st">'o'</span>)    </span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    ax.set_title(team, fontsize<span class="op">=</span><span class="dv">12</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>)</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>    ax.set_xticks(years)</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>    ax.set_xticklabels([<span class="st">"'00"</span>, <span class="st">"'04"</span>, <span class="st">"'08"</span>, <span class="st">"'12"</span>, <span class="st">"'16"</span>])  </span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    ax.spines[<span class="st">'top'</span>].set_visible(<span class="va">False</span>)</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>    ax.spines[<span class="st">'right'</span>].set_visible(<span class="va">False</span>)</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_ylabel(<span class="st">"Total Medals Accumulated"</span>)</span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>fig.suptitle(<span class="st">"Total Medals per Country, 2000–2016 Olympic Games"</span>, y<span class="op">=</span><span class="fl">1.03</span>)</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="hw6code_files/figure-html/cell-10-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Finally, we have a somewhat coherent plot! The real strength of the small multiple plots is the ability to line up several charts that share the same x and y axis, so comparisons are made incredibly simple. Also, by limiting our countries to ones that can fit in one row of facet plots, it’s super intuitive to just scroll horizontally and draw immediate conclusions about medal accumlation.</p>
+</section>
+<section id="part-4-slight-tweak-with-normalization" class="level2">
+<h2 class="anchored" data-anchor-id="part-4-slight-tweak-with-normalization">Part 4: Slight Tweak with Normalization</h2>
+<p>For the final part of this assignment, we’ll make a slight tweak to the previous chart by creating a normalized view; my idea for this is to transform our medal accumulated account into a gold medal percentage, so it’s more weighted based on the size of the teams. To do this, we’ll make a slight tweak to our dataset, repivot, then recreate our small multiples chart:</p>
+<section id="dataset-tweak-recreation-of-plot" class="level3">
+<h3 class="anchored" data-anchor-id="dataset-tweak-recreation-of-plot">Dataset Tweak + Recreation of Plot</h3>
+<div id="ff3a4d97-07ba-45e2-8167-696dc41ef32b" class="cell" data-execution_count="122">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>percent_olympics <span class="op">=</span> facet_olympics.assign(GoldPerc <span class="op">=</span> <span class="bu">round</span>(facet_olympics[<span class="st">'Gold'</span>]<span class="op">/</span>facet_olympics[<span class="st">'total'</span>], <span class="dv">3</span>))</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>piv_facet_2 <span class="op">=</span> percent_olympics.pivot(index<span class="op">=</span><span class="st">"noc"</span>, columns<span class="op">=</span><span class="st">"year"</span>, values<span class="op">=</span><span class="st">"GoldPerc"</span>).dropna()</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="bu">len</span>(selected_countries), figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">4</span>),</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>                         sharex<span class="op">=</span><span class="va">True</span>, sharey<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ax, team <span class="kw">in</span> <span class="bu">zip</span>(axes, selected_countries):</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> team <span class="kw">not</span> <span class="kw">in</span> piv_facet_2.index:      </span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>        ax.set_visible(<span class="va">False</span>)</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">continue</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    y_vals <span class="op">=</span> piv_facet_2.loc[team, years].values</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    ax.plot(years, y_vals, marker<span class="op">=</span><span class="st">'o'</span>)    </span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    ax.set_title(team, fontsize<span class="op">=</span><span class="dv">12</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>)</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>    ax.set_xticks(years)</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>    ax.set_xticklabels([<span class="st">"'00"</span>, <span class="st">"'04"</span>, <span class="st">"'08"</span>, <span class="st">"'12"</span>, <span class="st">"'16"</span>])  </span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>    ax.spines[<span class="st">'top'</span>].set_visible(<span class="va">False</span>)</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>    ax.spines[<span class="st">'right'</span>].set_visible(<span class="va">False</span>)</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_ylabel(<span class="st">"Total Medals Accumulated"</span>)</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>fig.suptitle(<span class="st">"Gold Medal Percentage of Total Medals Accumulated by Country, 2000–2016 Olympic Games"</span>, y<span class="op">=</span><span class="fl">1.03</span>)</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="hw6code_files/figure-html/cell-11-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Here, we notice that gold medal percentage presents a far more variable and spread out dataset of values for our 4 main olympic countries. This is likely indicative of the fact that total medals accumulated isn’t exactly indicative of a country’s unified strength, but rather their magnitude (how many teams/individuals they submit to each competition, for larger countries like these they are much more likely to have more chances to win medals). However, by using gold percentage, we isolate what is essentially a concentrated strength statistic, which tells us what percentage of a country’s medal finishes were the top of their class. In the future, I’d like to potentially layer total medal accumulation and gold medal percentage together to see if there are any overlapping patterns.</p>
+</section>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>Overall, this assignment was a great exercise in using data visualization techniques to compare groups, which to me is one of the most powerful and valuable purposes of data visualization. While we tried differentiating groups using color encodings and separated axes, I feel like the strongest method of comparing multiple groups in a dataset is using a small multiples/facet plot with shared axes, since we can directly juxtapose different group trends side-to-side using the same reference axes. I plan on exploring more of these comparative graphs in my future projects, such as stacked plots or Cleveland plots.</p>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

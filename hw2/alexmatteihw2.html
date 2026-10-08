@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Alex Mattei">
+
+<title>Homework 2 - Making Visualizations with Raw Baseball Trackman Data</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="alexmatteihw2_files/libs/clipboard/clipboard.min.js"></script>
+<script src="alexmatteihw2_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="alexmatteihw2_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="alexmatteihw2_files/libs/quarto-html/popper.min.js"></script>
+<script src="alexmatteihw2_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="alexmatteihw2_files/libs/quarto-html/anchor.min.js"></script>
+<link href="alexmatteihw2_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="alexmatteihw2_files/libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="alexmatteihw2_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="alexmatteihw2_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="alexmatteihw2_files/libs/bootstrap/bootstrap-4df2d83d3588621b0d1fbb685efaff60.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+</head>
+
+<body class="fullcontent quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Homework 2 - Making Visualizations with Raw Baseball Trackman Data</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Alex Mattei </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">Invalid Date</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Hello, my name is Alex Mattei and this is my first homework assignment for Data Visualization. Here, we’ll be making some visualizations from data of our choice to work with some Python functions to observe how graphs can effectively (or not) illustrate some kind of trend or story from raw numbers.</p>
+<p>For this assignment, the data I’m choosing requires a bit of context. I work with GW Baseball as a student analytics manager, and one of our tasks is attending home games and “tagging them”, which involves tracking the game outcomes using a digital software that receives data from a high speed camera behind home plate. We tag every pitch with a type and outcome, and after every game we receive a spreadsheet that lists lots of important data points for every single pitch of the game. For this assignment, I’ll be using one of those spreadsheets.</p>
+<p>We’ll start by setting up our libraries, importing the data, and likely downsizing it as it is a very wide spreadsheet.</p>
+<div id="455b712f-0edd-4c51-995e-3c52deeab0b2" class="cell" data-execution_count="20">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sds</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> mat</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="0f6ab21d-d33b-4efb-ba3e-6fde7390d25f" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>baseball_data <span class="op">=</span> pd.read_csv(<span class="st">"hw2baseballdata.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Index(['PitchNo', 'Date', 'Time', 'PAofInning', 'PitchofPA', 'Pitcher',
+       'PitcherId', 'PitcherThrows', 'PitcherTeam', 'Batter',
+       ...
+       'ThrowTrajectoryZc1', 'ThrowTrajectoryZc2', 'PitchReleaseConfidence',
+       'PitchLocationConfidence', 'PitchMovementConfidence',
+       'HitLaunchConfidence', 'HitLandingConfidence',
+       'CatcherThrowCatchConfidence', 'CatcherThrowReleaseConfidence',
+       'CatcherThrowLocationConfidence'],
+      dtype='str', length=167)</code></pre>
+</div>
+</div>
+<p>Let’s cut down our data by selecting some specifically valuable columns that might be on interest for our graphing.</p>
+<div id="958e27d8-0b86-4523-949b-0731b263407e" class="cell" data-execution_count="17">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>baseball_simple <span class="op">=</span> baseball_data[[<span class="st">'PitchNo'</span>, <span class="st">'Balls'</span>, <span class="st">'Strikes'</span>, <span class="st">'TaggedPitchType'</span>, <span class="st">'PitchCall'</span>, </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">'TaggedHitType'</span>, <span class="st">'PlayResult'</span>, <span class="st">'RelSpeed'</span>, <span class="st">'SpinRate'</span>, <span class="st">'InducedVertBreak'</span>, <span class="st">'HorzBreak'</span>]]</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>baseball_simple</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="17">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">PitchNo</th>
+<th data-quarto-table-cell-role="th">Balls</th>
+<th data-quarto-table-cell-role="th">Strikes</th>
+<th data-quarto-table-cell-role="th">TaggedPitchType</th>
+<th data-quarto-table-cell-role="th">PitchCall</th>
+<th data-quarto-table-cell-role="th">TaggedHitType</th>
+<th data-quarto-table-cell-role="th">PlayResult</th>
+<th data-quarto-table-cell-role="th">RelSpeed</th>
+<th data-quarto-table-cell-role="th">SpinRate</th>
+<th data-quarto-table-cell-role="th">InducedVertBreak</th>
+<th data-quarto-table-cell-role="th">HorzBreak</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>Fastball</td>
+<td>BallCalled</td>
+<td>Undefined</td>
+<td>Undefined</td>
+<td>87.06319</td>
+<td>1995.096563</td>
+<td>14.55965</td>
+<td>1.97945</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+<td>Slider</td>
+<td>FoulBallNotFieldable</td>
+<td>Undefined</td>
+<td>Undefined</td>
+<td>81.10267</td>
+<td>2553.955738</td>
+<td>9.73524</td>
+<td>-9.25634</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>3</td>
+<td>1</td>
+<td>1</td>
+<td>Fastball</td>
+<td>InPlay</td>
+<td>FlyBall</td>
+<td>Out</td>
+<td>88.75522</td>
+<td>2003.088098</td>
+<td>15.72147</td>
+<td>5.20079</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>4</td>
+<td>0</td>
+<td>0</td>
+<td>Slider</td>
+<td>StrikeCalled</td>
+<td>Undefined</td>
+<td>Undefined</td>
+<td>80.13681</td>
+<td>2397.460917</td>
+<td>8.57083</td>
+<td>-13.89930</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>5</td>
+<td>0</td>
+<td>1</td>
+<td>Slider</td>
+<td>FoulBallNotFieldable</td>
+<td>Undefined</td>
+<td>Undefined</td>
+<td>80.10726</td>
+<td>2563.670148</td>
+<td>6.99870</td>
+<td>-10.32012</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">...</th>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">289</th>
+<td>290</td>
+<td>0</td>
+<td>2</td>
+<td>Slider</td>
+<td>BallCalled</td>
+<td>Undefined</td>
+<td>Undefined</td>
+<td>77.77750</td>
+<td>2486.166658</td>
+<td>-1.97248</td>
+<td>-11.55024</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">290</th>
+<td>291</td>
+<td>1</td>
+<td>2</td>
+<td>Fastball</td>
+<td>InPlay</td>
+<td>GroundBall</td>
+<td>FieldersChoice</td>
+<td>88.69818</td>
+<td>2184.333292</td>
+<td>15.93296</td>
+<td>3.94760</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">291</th>
+<td>292</td>
+<td>0</td>
+<td>0</td>
+<td>Slider</td>
+<td>StrikeSwinging</td>
+<td>Undefined</td>
+<td>Undefined</td>
+<td>79.78332</td>
+<td>2440.413817</td>
+<td>8.71497</td>
+<td>-5.68217</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">292</th>
+<td>293</td>
+<td>0</td>
+<td>1</td>
+<td>Slider</td>
+<td>BallCalled</td>
+<td>Undefined</td>
+<td>Undefined</td>
+<td>78.88335</td>
+<td>2479.635011</td>
+<td>7.37221</td>
+<td>-2.84784</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">293</th>
+<td>294</td>
+<td>1</td>
+<td>1</td>
+<td>Slider</td>
+<td>InPlay</td>
+<td>FlyBall</td>
+<td>Out</td>
+<td>79.77669</td>
+<td>2455.019454</td>
+<td>4.18882</td>
+<td>-7.93355</td>
+</tr>
+</tbody>
+</table>
+
+<p>294 rows × 11 columns</p>
+</div>
+</div>
+</div>
+<p>Let’s start first with a simple scatter plot that compares <strong>pitch velocity</strong> and <strong>spin rate</strong>. While these two aren’t enough to accurately predict the type of a pitch, we should see some kind of grouping based on similarities between pitch types.</p>
+<p>Let’s generate this graph twice, one without an encoding and one that shows pitch type by color.</p>
+<div id="8bfb3c2b-d6cc-43d7-8bc7-8207a6d7fcee" class="cell" data-execution_count="27">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>mat.figure(figsize <span class="op">=</span> (<span class="dv">8</span>,<span class="dv">6</span>))</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>sds.scatterplot(x <span class="op">=</span> <span class="st">'RelSpeed'</span>, y <span class="op">=</span> <span class="st">'SpinRate'</span>, data <span class="op">=</span> baseball_simple, s<span class="op">=</span><span class="dv">40</span>, alpha<span class="op">=</span><span class="fl">0.8</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>mat.title(<span class="st">"Pitch Speed vs. Spin Rate for Collegiate Pitchers"</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>mat.show()</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>mat.figure(figsize <span class="op">=</span> (<span class="dv">8</span>,<span class="dv">6</span>))</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>sds.scatterplot(x <span class="op">=</span> <span class="st">'RelSpeed'</span>, y <span class="op">=</span> <span class="st">'SpinRate'</span>, hue <span class="op">=</span> <span class="st">'TaggedPitchType'</span>, data <span class="op">=</span> baseball_simple, s<span class="op">=</span><span class="dv">40</span>, alpha<span class="op">=</span><span class="fl">0.8</span>)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>mat.title(<span class="st">"Pitch Speed vs. Spin Rate for Collegiate Pitchers"</span>)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>mat.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="alexmatteihw2_files/figure-html/cell-5-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="alexmatteihw2_files/figure-html/cell-5-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>These charts display the speed and spin rates of 200-300 pitches thrown by D1 athletes.</p>
+<p>While there is a very high level of nuance when distinguishing pitch types by the numbers, pitches can be broadly separated into 3 types with general relative trends:</p>
+<ul>
+<li>Fastballs (4-seam (just called Fastball), Sinker, Cutter): high velocity, high spin rate</li>
+<li>Offspeed pitches (just Changeup here, but also Splitter, very uncommon): medium velocity, low spin rate</li>
+<li>Breaking Balls (Slider, Curveball, Sweeper): low-medium velocity, high spin rate</li>
+</ul>
+<p>We can see that encoding our second graph using pitch type (decided by GW managers) helps highlight these general clusters, and we can see that each pitch generally falls into a broad zone of what we’d expect its speed and spin rate pairing to be. This encoding could help an individual intuit the different categories that pitches can fall into and serves as a visual example for where those categories deviate.</p>
+<p>Let’s look at another chart, one that compares velocity across the different pitches thrown.</p>
+<div id="c2aac6eb-094d-45c9-adba-2499255bb648" class="cell" data-execution_count="37">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>mat.figure(figsize<span class="op">=</span>(<span class="dv">8</span>,<span class="dv">6</span>))</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>sds.boxplot(x<span class="op">=</span><span class="st">"TaggedPitchType"</span>, y<span class="op">=</span><span class="st">"RelSpeed"</span>, data<span class="op">=</span>baseball_simple)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>mat.title(<span class="st">"Pitch Velocity per Pitch Type for Collegiate Baseball Players"</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>mat.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="alexmatteihw2_files/figure-html/cell-6-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Here, I think a boxplot might be one of the best options to display our expectation for the speed of pitches. Here, we observe about what we would expect:</p>
+<ul>
+<li>The fastballs are the fastest, 4-seam being the highest velocity pitch of the three (this is commonly observed in almost every pitcher)</li>
+<li>Breaking balls are usually the slowest, pitches that focus more on their motion and movement likely won’t have the same raw speed as others</li>
+<li>Major variation in changeup velocity, since it heavily depends on the speed of a specific pitcher’s fastball</li>
+</ul>
+<p>I chose this setup so we could see the explicit differences between pitch types and, again, so that an individual could intuit which categories pitches fall into based on their average velocity. However, this graph does suffer from a lack of nuance when it comes to evaluating college pitchers, as there is a high amount of variability between each type of pitch among different pitchers. For example, some pitchers base their game around a high-velo fastball and are likely to have less power on their other pitches, while others aim to keep their pitches in a similar speed zone so the break of certain pitches is more pronounced (and thus harder to pitch).</p>
+<p>For our final plot, we will use the interactive library Altair. We’ll be comparing horizontal break vs induced vertical break (two of our most important tools in identifying pitches) with some extra incodings to indicate pitch type and speed.</p>
+<div id="ced4ad60-fd6b-42ce-8c5d-c1051c82ad22" class="cell" data-execution_count="48">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> altair <span class="im">as</span> alt</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>alt.data_transformers.disable_max_rows()</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>alt.Chart(baseball_simple).mark_circle().encode(</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span><span class="st">'HorzBreak:Q'</span>,</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    y<span class="op">=</span><span class="st">'InducedVertBreak:Q'</span>,</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">'TaggedPitchType'</span>,</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    size <span class="op">=</span> alt.Size(<span class="st">'RelSpeed:Q'</span>, scale <span class="op">=</span> alt.Scale(zero <span class="op">=</span> <span class="va">False</span>, <span class="bu">range</span> <span class="op">=</span> [<span class="dv">20</span>, <span class="dv">100</span>])),</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    tooltip<span class="op">=</span>[<span class="st">'TaggedPitchType'</span>,<span class="st">'RelSpeed'</span>,<span class="st">'HorzBreak'</span>,<span class="st">'InducedVertBreak'</span>]</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>).interactive()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="48">
+
+<style>
+  #altair-viz-794537fbc42a49df82032136e7efdf81.vega-embed {
+    width: 100%;
+    display: flex;
+  }
+
+  #altair-viz-794537fbc42a49df82032136e7efdf81.vega-embed details,
+  #altair-viz-794537fbc42a49df82032136e7efdf81.vega-embed details summary {
+    position: relative;
+  }
+</style>
+<div id="altair-viz-794537fbc42a49df82032136e7efdf81"></div>
+<script type="text/javascript">
+  var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
+  (function(spec, embedOpt){
+    let outputDiv = document.currentScript.previousElementSibling;
+    if (outputDiv.id !== "altair-viz-794537fbc42a49df82032136e7efdf81") {
+      outputDiv = document.getElementById("altair-viz-794537fbc42a49df82032136e7efdf81");
+    }
+
+    const paths = {
+      "vega": "https://cdn.jsdelivr.net/npm/vega@6?noext",
+      "vega-lib": "https://cdn.jsdelivr.net/npm/vega-lib?noext",
+      "vega-lite": "https://cdn.jsdelivr.net/npm/vega-lite@6.4.1?noext",
+      "vega-embed": "https://cdn.jsdelivr.net/npm/vega-embed@7?noext",
+    };
+
+    function maybeLoadScript(lib, version) {
+      var key = `${lib.replace("-", "")}_version`;
+      return (VEGA_DEBUG[key] == version) ?
+        Promise.resolve(paths[lib]) :
+        new Promise(function(resolve, reject) {
+          var s = document.createElement('script');
+          document.getElementsByTagName("head")[0].appendChild(s);
+          s.async = true;
+          s.onload = () => {
+            VEGA_DEBUG[key] = version;
+            return resolve(paths[lib]);
+          };
+          s.onerror = () => reject(`Error loading script: ${paths[lib]}`);
+          s.src = paths[lib];
+        });
+    }
+
+    function showError(err) {
+      outputDiv.innerHTML = `<div class="error" style="color:red;">${err}</div>`;
+      throw err;
+    }
+
+    function displayChart(vegaEmbed) {
+      vegaEmbed(outputDiv, spec, embedOpt)
+        .catch(err => showError(`Javascript Error: ${err.message}<br>This usually means there's a typo in your chart specification. See the javascript console for the full traceback.`));
+    }
+
+    if(typeof define === "function" && define.amd) {
+      requirejs.config({paths});
+      let deps = ["vega-embed"];
+      require(deps, displayChart, err => showError(`Error loading script: ${err.message}`));
+    } else {
+      maybeLoadScript("vega", "6")
+        .then(() => maybeLoadScript("vega-lite", "6.4.1"))
+        .then(() => maybeLoadScript("vega-embed", "7"))
+        .catch(showError)
+        .then(() => displayChart(vegaEmbed));
+    }
+  })({"config": {"view": {"continuousWidth": 300, "continuousHeight": 300}}, "data": {"name": "data-1e27997c8b922a0a8d9ecc4efb3e1627"}, "mark": {"type": "circle"}, "encoding": {"color": {"field": "TaggedPitchType", "type": "nominal"}, "size": {"field": "RelSpeed", "scale": {"range": [20, 100], "zero": false}, "type": "quantitative"}, "tooltip": [{"field": "TaggedPitchType", "type": "nominal"}, {"field": "RelSpeed", "type": "quantitative"}, {"field": "HorzBreak", "type": "quantitative"}, {"field": "InducedVertBreak", "type": "quantitative"}], "x": {"field": "HorzBreak", "type": "quantitative"}, "y": {"field": "InducedVertBreak", "type": "quantitative"}}, "params": [{"name": "param_1e9efca18e7a2868", "select": {"type": "interval", "encodings": ["x", "y"]}, "bind": "scales"}], "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json", "datasets": {"data-1e27997c8b922a0a8d9ecc4efb3e1627": [{"PitchNo": 1, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Fastball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 87.06319, "SpinRate": 1995.096563, "InducedVertBreak": 14.55965, "HorzBreak": 1.97945}, {"PitchNo": 2, "Balls": 1, "Strikes": 0, "TaggedPitchType": "Slider", "PitchCall": "FoulBallNotFieldable", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 81.10267, "SpinRate": 2553.955738, "InducedVertBreak": 9.73524, "HorzBreak": -9.25634}, {"PitchNo": 3, "Balls": 1, "Strikes": 1, "TaggedPitchType": "Fastball", "PitchCall": "InPlay", "TaggedHitType": "FlyBall", "PlayResult": "Out", "RelSpeed": 88.75522, "SpinRate": 2003.088098, "InducedVertBreak": 15.72147, "HorzBreak": 5.20079}, {"PitchNo": 4, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Slider", "PitchCall": "StrikeCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 80.13681, "SpinRate": 2397.460917, "InducedVertBreak": 8.57083, "HorzBreak": -13.8993}, {"PitchNo": 5, "Balls": 0, "Strikes": 1, "TaggedPitchType": "Slider", "PitchCall": "FoulBallNotFieldable", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 80.10726, "SpinRate": 2563.670148, "InducedVertBreak": 6.9987, "HorzBreak": -10.32012}, {"PitchNo": 6, "Balls": 0, "Strikes": 2, "TaggedPitchType": "Fastball", "PitchCall": "InPlay", "TaggedHitType": "GroundBall", "PlayResult": "Out", "RelSpeed": 89.9322, "SpinRate": 2025.54732, "InducedVertBreak": 13.34422, "HorzBreak": 1.25547}, {"PitchNo": 7, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Fastball", "PitchCall": "StrikeCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 88.30529, "SpinRate": 2156.085389, "InducedVertBreak": 14.84686, "HorzBreak": 12.81233}, {"PitchNo": 8, "Balls": 0, "Strikes": 1, "TaggedPitchType": "Slider", "PitchCall": "FoulBallNotFieldable", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 80.67278, "SpinRate": 2482.777108, "InducedVertBreak": 7.54426, "HorzBreak": -12.62324}, {"PitchNo": 9, "Balls": 0, "Strikes": 2, "TaggedPitchType": "Sinker", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 88.64915, "SpinRate": 2197.220295, "InducedVertBreak": 9.55386, "HorzBreak": 15.73812}, {"PitchNo": 10, "Balls": 1, "Strikes": 2, "TaggedPitchType": "Cutter", "PitchCall": "FoulBallNotFieldable", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 87.08034, "SpinRate": 2429.12137, "InducedVertBreak": 10.18603, "HorzBreak": -3.35795}, {"PitchNo": 11, "Balls": 1, "Strikes": 2, "TaggedPitchType": "Slider", "PitchCall": "InPlay", "TaggedHitType": "GroundBall", "PlayResult": "Out", "RelSpeed": 80.11483, "SpinRate": 2654.309571, "InducedVertBreak": 3.56504, "HorzBreak": -15.02961}, {"PitchNo": 12, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Fastball", "PitchCall": "FoulBallNotFieldable", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 88.19918, "SpinRate": 2212.430677, "InducedVertBreak": 13.07048, "HorzBreak": 21.82147}, {"PitchNo": 13, "Balls": 0, "Strikes": 1, "TaggedPitchType": "Fastball", "PitchCall": "FoulBallNotFieldable", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 87.84311, "SpinRate": 2082.69015, "InducedVertBreak": 12.32997, "HorzBreak": 17.76824}, {"PitchNo": 14, "Balls": 0, "Strikes": 2, "TaggedPitchType": "ChangeUp", "PitchCall": "HitByPitch", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 84.28757, "SpinRate": 2020.811516, "InducedVertBreak": 8.48953, "HorzBreak": 20.46355}, {"PitchNo": 15, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Fastball", "PitchCall": "HitByPitch", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 87.651, "SpinRate": 2165.696702, "InducedVertBreak": 15.46702, "HorzBreak": 20.00359}, {"PitchNo": 16, "Balls": 0, "Strikes": 0, "TaggedPitchType": "ChangeUp", "PitchCall": "StrikeCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 83.83731, "SpinRate": 2038.395456, "InducedVertBreak": 5.78638, "HorzBreak": 20.92836}, {"PitchNo": 17, "Balls": 0, "Strikes": 1, "TaggedPitchType": "ChangeUp", "PitchCall": "StrikeSwinging", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 83.00391, "SpinRate": 2017.266094, "InducedVertBreak": 5.39851, "HorzBreak": 21.3584}, {"PitchNo": 18, "Balls": 0, "Strikes": 2, "TaggedPitchType": "ChangeUp", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 82.9131, "SpinRate": 1841.754566, "InducedVertBreak": 3.24882, "HorzBreak": 17.63595}, {"PitchNo": 19, "Balls": 1, "Strikes": 2, "TaggedPitchType": "Fastball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 87.774, "SpinRate": 2193.319075, "InducedVertBreak": 13.16847, "HorzBreak": 17.51068}, {"PitchNo": 20, "Balls": 2, "Strikes": 2, "TaggedPitchType": "ChangeUp", "PitchCall": "FoulBallNotFieldable", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 83.4356, "SpinRate": 1985.89853, "InducedVertBreak": 3.93768, "HorzBreak": 20.26722}, {"PitchNo": 21, "Balls": 2, "Strikes": 2, "TaggedPitchType": "ChangeUp", "PitchCall": "FoulBallNotFieldable", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 83.88206, "SpinRate": 1926.252563, "InducedVertBreak": 5.25559, "HorzBreak": 18.41418}, {"PitchNo": 22, "Balls": 2, "Strikes": 2, "TaggedPitchType": "Fastball", "PitchCall": "StrikeCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 87.55639, "SpinRate": 2075.249763, "InducedVertBreak": 13.87831, "HorzBreak": 17.88784}, {"PitchNo": 23, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Fastball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 88.21709, "SpinRate": 2023.421227, "InducedVertBreak": 7.43721, "HorzBreak": 22.16438}, {"PitchNo": 24, "Balls": 1, "Strikes": 0, "TaggedPitchType": "ChangeUp", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 82.69488, "SpinRate": 1777.147004, "InducedVertBreak": 3.31713, "HorzBreak": 21.10903}, {"PitchNo": 25, "Balls": 2, "Strikes": 0, "TaggedPitchType": "Fastball", "PitchCall": "InPlay", "TaggedHitType": "GroundBall", "PlayResult": "Out", "RelSpeed": 87.34584, "SpinRate": 2108.383751, "InducedVertBreak": 11.18138, "HorzBreak": 19.61277}, {"PitchNo": 26, "Balls": 0, "Strikes": 0, "TaggedPitchType": "ChangeUp", "PitchCall": "FoulBallNotFieldable", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 84.22981, "SpinRate": 1784.09811, "InducedVertBreak": 1.2261, "HorzBreak": 21.84478}, {"PitchNo": 27, "Balls": 0, "Strikes": 1, "TaggedPitchType": "ChangeUp", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 83.36098, "SpinRate": 1834.05229, "InducedVertBreak": 4.39437, "HorzBreak": 18.60092}, {"PitchNo": 28, "Balls": 1, "Strikes": 1, "TaggedPitchType": "Fastball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 86.49785, "SpinRate": 2177.513039, "InducedVertBreak": 14.85977, "HorzBreak": 19.80348}, {"PitchNo": 29, "Balls": 2, "Strikes": 1, "TaggedPitchType": "Fastball", "PitchCall": "FoulBallNotFieldable", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 87.17906, "SpinRate": 2049.709095, "InducedVertBreak": 12.51107, "HorzBreak": 22.01895}, {"PitchNo": 30, "Balls": 2, "Strikes": 2, "TaggedPitchType": "Fastball", "PitchCall": "InPlay", "TaggedHitType": "FlyBall", "PlayResult": "Out", "RelSpeed": 86.51088, "SpinRate": 2142.90552, "InducedVertBreak": 11.92623, "HorzBreak": 18.35351}, {"PitchNo": 31, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Sinker", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 87.78732, "SpinRate": 2161.016717, "InducedVertBreak": 9.5993, "HorzBreak": 10.85631}, {"PitchNo": 32, "Balls": 1, "Strikes": 0, "TaggedPitchType": "Slider", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 80.06216, "SpinRate": 2563.913912, "InducedVertBreak": 4.55642, "HorzBreak": -15.93312}, {"PitchNo": 33, "Balls": 2, "Strikes": 0, "TaggedPitchType": "ChangeUp", "PitchCall": "StrikeSwinging", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 82.59643, "SpinRate": 1660.994944, "InducedVertBreak": 8.7417, "HorzBreak": 11.38453}, {"PitchNo": 34, "Balls": 2, "Strikes": 1, "TaggedPitchType": "Slider", "PitchCall": "FoulBallNotFieldable", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 81.22563, "SpinRate": 2697.976319, "InducedVertBreak": 5.81248, "HorzBreak": -12.91812}, {"PitchNo": 35, "Balls": 2, "Strikes": 2, "TaggedPitchType": "ChangeUp", "PitchCall": "InPlay", "TaggedHitType": "GroundBall", "PlayResult": "Out", "RelSpeed": 84.94849, "SpinRate": 1818.585319, "InducedVertBreak": 5.68733, "HorzBreak": 12.5478}, {"PitchNo": 36, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Slider", "PitchCall": "FoulBallNotFieldable", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 79.55113, "SpinRate": 2454.115935, "InducedVertBreak": 8.6415, "HorzBreak": -13.14513}, {"PitchNo": 37, "Balls": 0, "Strikes": 1, "TaggedPitchType": "Cutter", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 87.02082, "SpinRate": 2231.942826, "InducedVertBreak": 8.62686, "HorzBreak": 0.32047}, {"PitchNo": 38, "Balls": 1, "Strikes": 1, "TaggedPitchType": "Slider", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 79.89167, "SpinRate": 2557.468336, "InducedVertBreak": 11.21993, "HorzBreak": -12.91438}, {"PitchNo": 39, "Balls": 2, "Strikes": 1, "TaggedPitchType": "Fastball", "PitchCall": "StrikeCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 88.71654, "SpinRate": 2145.877596, "InducedVertBreak": 15.55745, "HorzBreak": 12.41587}, {"PitchNo": 40, "Balls": 2, "Strikes": 2, "TaggedPitchType": "Slider", "PitchCall": "InPlay", "TaggedHitType": "FlyBall", "PlayResult": "HomeRun", "RelSpeed": 81.60263, "SpinRate": 2545.693404, "InducedVertBreak": 11.4602, "HorzBreak": -11.42123}, {"PitchNo": 41, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Fastball", "PitchCall": "FoulBallNotFieldable", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 89.48864, "SpinRate": 1971.572861, "InducedVertBreak": 13.1365, "HorzBreak": 3.27662}, {"PitchNo": 42, "Balls": 0, "Strikes": 1, "TaggedPitchType": "Cutter", "PitchCall": "FoulBallNotFieldable", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 85.52786, "SpinRate": 2477.006055, "InducedVertBreak": 10.99418, "HorzBreak": 0.10925}, {"PitchNo": 43, "Balls": 0, "Strikes": 2, "TaggedPitchType": "Cutter", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 89.60386, "SpinRate": 2278.609632, "InducedVertBreak": 15.09855, "HorzBreak": 0.44941}, {"PitchNo": 44, "Balls": 1, "Strikes": 2, "TaggedPitchType": "Slider", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 80.39477, "SpinRate": 2751.031837, "InducedVertBreak": 6.41567, "HorzBreak": -14.77402}, {"PitchNo": 45, "Balls": 2, "Strikes": 2, "TaggedPitchType": "Fastball", "PitchCall": "InPlay", "TaggedHitType": "FlyBall", "PlayResult": "Out", "RelSpeed": 88.24081, "SpinRate": 2335.561929, "InducedVertBreak": 16.43485, "HorzBreak": 2.71158}, {"PitchNo": 46, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Cutter", "PitchCall": "StrikeCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 89.17764, "SpinRate": 2243.650507, "InducedVertBreak": 15.91465, "HorzBreak": 1.01516}, {"PitchNo": 47, "Balls": 0, "Strikes": 1, "TaggedPitchType": "Cutter", "PitchCall": "InPlay", "TaggedHitType": "GroundBall", "PlayResult": "Single", "RelSpeed": 86.31046, "SpinRate": 2378.55468, "InducedVertBreak": 9.71863, "HorzBreak": -1.44732}, {"PitchNo": 48, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Fastball", "PitchCall": "FoulBallNotFieldable", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 89.10409, "SpinRate": 2205.394184, "InducedVertBreak": 16.24131, "HorzBreak": 3.54949}, {"PitchNo": 49, "Balls": 0, "Strikes": 1, "TaggedPitchType": "Sinker", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 89.21589, "SpinRate": 2260.553073, "InducedVertBreak": 8.10107, "HorzBreak": 11.84658}, {"PitchNo": 50, "Balls": 1, "Strikes": 1, "TaggedPitchType": "Fastball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 89.0853, "SpinRate": 2491.847699, "InducedVertBreak": 8.73922, "HorzBreak": 2.60677}, {"PitchNo": 51, "Balls": 2, "Strikes": 1, "TaggedPitchType": "Cutter", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 90.0431, "SpinRate": 2286.647185, "InducedVertBreak": 18.80068, "HorzBreak": -5.11957}, {"PitchNo": 52, "Balls": 3, "Strikes": 1, "TaggedPitchType": "Cutter", "PitchCall": "FoulBallNotFieldable", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 90.06014, "SpinRate": 2129.634929, "InducedVertBreak": 17.9156, "HorzBreak": -2.15158}, {"PitchNo": 53, "Balls": 3, "Strikes": 2, "TaggedPitchType": "Fastball", "PitchCall": "InPlay", "TaggedHitType": "FlyBall", "PlayResult": "Out", "RelSpeed": 86.96895, "SpinRate": 2432.200746, "InducedVertBreak": 9.21398, "HorzBreak": 4.64437}, {"PitchNo": 54, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Fastball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 94.46791, "SpinRate": 2372.639052, "InducedVertBreak": 17.34284, "HorzBreak": 18.44855}, {"PitchNo": 55, "Balls": 1, "Strikes": 0, "TaggedPitchType": "Curveball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 81.15587, "SpinRate": 2347.885417, "InducedVertBreak": -3.38933, "HorzBreak": -0.80402}, {"PitchNo": 56, "Balls": 2, "Strikes": 0, "TaggedPitchType": "Fastball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 94.29594, "SpinRate": 2355.040862, "InducedVertBreak": 16.95851, "HorzBreak": 17.21895}, {"PitchNo": 57, "Balls": 3, "Strikes": 0, "TaggedPitchType": "Fastball", "PitchCall": "StrikeCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 93.41567, "SpinRate": 2361.472128, "InducedVertBreak": 20.09005, "HorzBreak": 14.96587}, {"PitchNo": 58, "Balls": 3, "Strikes": 1, "TaggedPitchType": "Fastball", "PitchCall": "StrikeCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 94.17434, "SpinRate": 2360.014291, "InducedVertBreak": 16.71194, "HorzBreak": 15.96639}, {"PitchNo": 59, "Balls": 3, "Strikes": 2, "TaggedPitchType": "Fastball", "PitchCall": "StrikeSwinging", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 94.54366, "SpinRate": 2302.006885, "InducedVertBreak": 19.5032, "HorzBreak": 11.84552}, {"PitchNo": 60, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Curveball", "PitchCall": "StrikeCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 80.04594, "SpinRate": 2355.777961, "InducedVertBreak": -7.69615, "HorzBreak": -6.29642}, {"PitchNo": 61, "Balls": 0, "Strikes": 1, "TaggedPitchType": "Curveball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 80.98923, "SpinRate": 2401.694194, "InducedVertBreak": -5.4024, "HorzBreak": -4.03236}, {"PitchNo": 62, "Balls": 1, "Strikes": 1, "TaggedPitchType": "Fastball", "PitchCall": "StrikeCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 93.92797, "SpinRate": 2368.826183, "InducedVertBreak": 20.33745, "HorzBreak": 12.51934}, {"PitchNo": 63, "Balls": 1, "Strikes": 2, "TaggedPitchType": "Fastball", "PitchCall": "FoulBallNotFieldable", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 94.02329, "SpinRate": 2330.518295, "InducedVertBreak": 14.19477, "HorzBreak": 15.15678}, {"PitchNo": 64, "Balls": 1, "Strikes": 2, "TaggedPitchType": "Curveball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 80.08627, "SpinRate": 2358.489331, "InducedVertBreak": -5.07658, "HorzBreak": -1.0978}, {"PitchNo": 65, "Balls": 2, "Strikes": 2, "TaggedPitchType": "Fastball", "PitchCall": "FoulBallNotFieldable", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 93.72762, "SpinRate": 2276.013028, "InducedVertBreak": 16.87682, "HorzBreak": 13.64942}, {"PitchNo": 66, "Balls": 2, "Strikes": 2, "TaggedPitchType": "Curveball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 82.12202, "SpinRate": 2368.288644, "InducedVertBreak": -5.04768, "HorzBreak": -1.79543}, {"PitchNo": 67, "Balls": 3, "Strikes": 2, "TaggedPitchType": "Curveball", "PitchCall": "InPlay", "TaggedHitType": "GroundBall", "PlayResult": "Single", "RelSpeed": 80.34868, "SpinRate": 2339.673925, "InducedVertBreak": -4.23315, "HorzBreak": -1.14724}, {"PitchNo": 68, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Fastball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 92.7485, "SpinRate": 2257.157174, "InducedVertBreak": 16.61603, "HorzBreak": 13.34115}, {"PitchNo": 69, "Balls": 1, "Strikes": 0, "TaggedPitchType": "Fastball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 93.91132, "SpinRate": 2290.907592, "InducedVertBreak": 14.09607, "HorzBreak": 12.79764}, {"PitchNo": 70, "Balls": 2, "Strikes": 0, "TaggedPitchType": "Fastball", "PitchCall": "FoulBallNotFieldable", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 92.63349, "SpinRate": 2221.436715, "InducedVertBreak": 15.65887, "HorzBreak": 12.22402}, {"PitchNo": 71, "Balls": 2, "Strikes": 1, "TaggedPitchType": "Fastball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 93.55909, "SpinRate": 2366.724383, "InducedVertBreak": 18.62466, "HorzBreak": 15.45249}, {"PitchNo": 72, "Balls": 3, "Strikes": 1, "TaggedPitchType": "Fastball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 94.13042, "SpinRate": 2329.070515, "InducedVertBreak": 15.53619, "HorzBreak": 16.72977}, {"PitchNo": 73, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Curveball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 79.09733, "SpinRate": 2459.658, "InducedVertBreak": -5.99835, "HorzBreak": -4.29087}, {"PitchNo": 74, "Balls": 1, "Strikes": 0, "TaggedPitchType": "Fastball", "PitchCall": "InPlay", "TaggedHitType": "GroundBall", "PlayResult": "FieldersChoice", "RelSpeed": 92.75764, "SpinRate": 2345.613269, "InducedVertBreak": 14.90654, "HorzBreak": 14.49166}, {"PitchNo": 75, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Sinker", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 85.8293, "SpinRate": 2119.180566, "InducedVertBreak": 7.67583, "HorzBreak": -18.57623}, {"PitchNo": 76, "Balls": 1, "Strikes": 0, "TaggedPitchType": "Sinker", "PitchCall": "StrikeCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 85.52189, "SpinRate": 2103.541248, "InducedVertBreak": 10.94934, "HorzBreak": -17.49674}, {"PitchNo": 77, "Balls": 1, "Strikes": 1, "TaggedPitchType": "Slider", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 70.73007, "SpinRate": 2152.904217, "InducedVertBreak": -6.61961, "HorzBreak": 17.13631}, {"PitchNo": 78, "Balls": 2, "Strikes": 1, "TaggedPitchType": "Fastball", "PitchCall": "StrikeSwinging", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 87.08177, "SpinRate": 2243.965375, "InducedVertBreak": 10.9356, "HorzBreak": -10.47977}, {"PitchNo": 79, "Balls": 2, "Strikes": 2, "TaggedPitchType": "Sinker", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 86.82936, "SpinRate": 2235.554552, "InducedVertBreak": 5.55733, "HorzBreak": -18.23221}, {"PitchNo": 80, "Balls": 3, "Strikes": 2, "TaggedPitchType": "Sinker", "PitchCall": "InPlay", "TaggedHitType": "FlyBall", "PlayResult": "Out", "RelSpeed": 87.83447, "SpinRate": 2284.277905, "InducedVertBreak": 11.94296, "HorzBreak": -13.41894}, {"PitchNo": 81, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Fastball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 87.0744, "SpinRate": 2316.923319, "InducedVertBreak": 11.26355, "HorzBreak": -8.84741}, {"PitchNo": 82, "Balls": 1, "Strikes": 0, "TaggedPitchType": "ChangeUp", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 81.82464, "SpinRate": 1694.143289, "InducedVertBreak": 9.79705, "HorzBreak": -8.93575}, {"PitchNo": 83, "Balls": 2, "Strikes": 0, "TaggedPitchType": "Sinker", "PitchCall": "FoulBallNotFieldable", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 86.23617, "SpinRate": 2123.615337, "InducedVertBreak": 8.8428, "HorzBreak": -13.26501}, {"PitchNo": 84, "Balls": 2, "Strikes": 1, "TaggedPitchType": "Slider", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 71.17738, "SpinRate": 2162.334988, "InducedVertBreak": -13.60705, "HorzBreak": 15.91052}, {"PitchNo": 85, "Balls": 3, "Strikes": 1, "TaggedPitchType": "Sinker", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 86.26141, "SpinRate": 2179.054348, "InducedVertBreak": 3.02878, "HorzBreak": -13.11359}, {"PitchNo": 86, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Sinker", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 86.04302, "SpinRate": 2116.891942, "InducedVertBreak": 1.21272, "HorzBreak": -18.65198}, {"PitchNo": 87, "Balls": 1, "Strikes": 0, "TaggedPitchType": "Sinker", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 86.29369, "SpinRate": 2060.077967, "InducedVertBreak": 3.82343, "HorzBreak": -17.96308}, {"PitchNo": 88, "Balls": 2, "Strikes": 0, "TaggedPitchType": "Sinker", "PitchCall": "HitByPitch", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 81.60685, "SpinRate": 1773.170568, "InducedVertBreak": 7.68374, "HorzBreak": -12.92127}, {"PitchNo": 89, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Sinker", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 86.01839, "SpinRate": 2145.329926, "InducedVertBreak": 4.77177, "HorzBreak": -15.22229}, {"PitchNo": 90, "Balls": 1, "Strikes": 0, "TaggedPitchType": "Fastball", "PitchCall": "FoulBallNotFieldable", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 87.83977, "SpinRate": 2283.478333, "InducedVertBreak": 11.14107, "HorzBreak": -9.83375}, {"PitchNo": 91, "Balls": 1, "Strikes": 1, "TaggedPitchType": "ChangeUp", "PitchCall": "InPlay", "TaggedHitType": "GroundBall", "PlayResult": "Out", "RelSpeed": 84.2514, "SpinRate": 1887.08969, "InducedVertBreak": 8.42894, "HorzBreak": -4.26634}, {"PitchNo": 92, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Slider", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 69.52855, "SpinRate": 1979.264954, "InducedVertBreak": -5.7702, "HorzBreak": 18.90096}, {"PitchNo": 93, "Balls": 1, "Strikes": 0, "TaggedPitchType": "ChangeUp", "PitchCall": "InPlay", "TaggedHitType": "GroundBall", "PlayResult": "Out", "RelSpeed": 86.15164, "SpinRate": 1997.677805, "InducedVertBreak": 3.34335, "HorzBreak": -17.47127}, {"PitchNo": 94, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Fastball", "PitchCall": "StrikeCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 88.48064, "SpinRate": 1659.96165, "InducedVertBreak": 3.745, "HorzBreak": -15.22182}, {"PitchNo": 95, "Balls": 0, "Strikes": 1, "TaggedPitchType": "Fastball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 86.99001, "SpinRate": 1478.36446, "InducedVertBreak": 1.86717, "HorzBreak": -12.11662}, {"PitchNo": 96, "Balls": 1, "Strikes": 1, "TaggedPitchType": "Fastball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 88.93258, "SpinRate": 1599.828994, "InducedVertBreak": 1.95992, "HorzBreak": -11.28351}, {"PitchNo": 97, "Balls": 2, "Strikes": 1, "TaggedPitchType": "Fastball", "PitchCall": "FoulBallNotFieldable", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 89.07669, "SpinRate": 1648.234494, "InducedVertBreak": 1.1363, "HorzBreak": -14.36446}, {"PitchNo": 98, "Balls": 2, "Strikes": 2, "TaggedPitchType": "Slider", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 76.14647, "SpinRate": 1976.592739, "InducedVertBreak": -5.82248, "HorzBreak": 13.87556}, {"PitchNo": 99, "Balls": 3, "Strikes": 2, "TaggedPitchType": "Fastball", "PitchCall": "StrikeCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 88.00073, "SpinRate": 1649.390536, "InducedVertBreak": 4.63878, "HorzBreak": -10.61693}, {"PitchNo": 100, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Fastball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 90.06639, "SpinRate": 1574.099738, "InducedVertBreak": 7.99052, "HorzBreak": -11.25768}, {"PitchNo": 101, "Balls": 1, "Strikes": 0, "TaggedPitchType": "Fastball", "PitchCall": "StrikeCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 89.74167, "SpinRate": 1579.504023, "InducedVertBreak": 3.92693, "HorzBreak": -13.37709}, {"PitchNo": 102, "Balls": 1, "Strikes": 1, "TaggedPitchType": "Fastball", "PitchCall": "FoulBallNotFieldable", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 88.20426, "SpinRate": 1573.554705, "InducedVertBreak": 3.96512, "HorzBreak": -12.32694}, {"PitchNo": 103, "Balls": 1, "Strikes": 2, "TaggedPitchType": "ChangeUp", "PitchCall": "StrikeSwinging", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 83.65676, "SpinRate": 1418.653451, "InducedVertBreak": 6.48174, "HorzBreak": -6.74536}, {"PitchNo": 104, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Fastball", "PitchCall": "StrikeCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 90.36111, "SpinRate": 1775.802836, "InducedVertBreak": 8.45941, "HorzBreak": -16.96316}, {"PitchNo": 105, "Balls": 0, "Strikes": 1, "TaggedPitchType": "Fastball", "PitchCall": "InPlay", "TaggedHitType": "GroundBall", "PlayResult": "Single", "RelSpeed": 90.0724, "SpinRate": 1684.009999, "InducedVertBreak": 5.72296, "HorzBreak": -16.59442}, {"PitchNo": 106, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Fastball", "PitchCall": "StrikeCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 90.36273, "SpinRate": 1579.712306, "InducedVertBreak": 5.25414, "HorzBreak": -15.62324}, {"PitchNo": 107, "Balls": 0, "Strikes": 1, "TaggedPitchType": "Fastball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 90.63338, "SpinRate": 1832.228168, "InducedVertBreak": 6.55552, "HorzBreak": -18.89107}, {"PitchNo": 108, "Balls": 1, "Strikes": 1, "TaggedPitchType": "Fastball", "PitchCall": "StrikeSwinging", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 90.95725, "SpinRate": 1650.548469, "InducedVertBreak": 4.58382, "HorzBreak": -12.75489}, {"PitchNo": 109, "Balls": 1, "Strikes": 2, "TaggedPitchType": "ChangeUp", "PitchCall": "InPlay", "TaggedHitType": "GroundBall", "PlayResult": "Out", "RelSpeed": 83.81635, "SpinRate": 1407.793742, "InducedVertBreak": 5.70713, "HorzBreak": -7.47772}, {"PitchNo": 110, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Sinker", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 84.2985, "SpinRate": 1849.366251, "InducedVertBreak": 12.21272, "HorzBreak": 20.12513}, {"PitchNo": 111, "Balls": 1, "Strikes": 0, "TaggedPitchType": "ChangeUp", "PitchCall": "StrikeCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 71.61807, "SpinRate": 1554.284457, "InducedVertBreak": -0.1598, "HorzBreak": 15.94973}, {"PitchNo": 112, "Balls": 1, "Strikes": 1, "TaggedPitchType": "Sinker", "PitchCall": "StrikeCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 84.12386, "SpinRate": 1782.67853, "InducedVertBreak": 12.15335, "HorzBreak": 19.9384}, {"PitchNo": 113, "Balls": 1, "Strikes": 2, "TaggedPitchType": "Sinker", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 84.93274, "SpinRate": 1876.054763, "InducedVertBreak": 12.80548, "HorzBreak": 18.70918}, {"PitchNo": 114, "Balls": 2, "Strikes": 2, "TaggedPitchType": "ChangeUp", "PitchCall": "FoulBallNotFieldable", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 72.55164, "SpinRate": 1632.856506, "InducedVertBreak": -1.16654, "HorzBreak": 15.7317}, {"PitchNo": 115, "Balls": 2, "Strikes": 2, "TaggedPitchType": "Fastball", "PitchCall": "InPlay", "TaggedHitType": "FlyBall", "PlayResult": "Out", "RelSpeed": 83.33107, "SpinRate": 1808.80761, "InducedVertBreak": 13.13922, "HorzBreak": 13.44792}, {"PitchNo": 116, "Balls": 0, "Strikes": 0, "TaggedPitchType": "ChangeUp", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 72.23654, "SpinRate": 1599.521259, "InducedVertBreak": 8.8363, "HorzBreak": -3.89957}, {"PitchNo": 117, "Balls": 1, "Strikes": 0, "TaggedPitchType": "Sinker", "PitchCall": "InPlay", "TaggedHitType": "FlyBall", "PlayResult": "Out", "RelSpeed": 86.08361, "SpinRate": 1899.490708, "InducedVertBreak": 14.05485, "HorzBreak": 17.08635}, {"PitchNo": 118, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Sinker", "PitchCall": "FoulBallNotFieldable", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 85.70903, "SpinRate": 1969.669362, "InducedVertBreak": 9.17205, "HorzBreak": 14.47737}, {"PitchNo": 119, "Balls": 0, "Strikes": 1, "TaggedPitchType": "ChangeUp", "PitchCall": "StrikeSwinging", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 73.10812, "SpinRate": 1593.018906, "InducedVertBreak": 1.75114, "HorzBreak": 12.02477}, {"PitchNo": 120, "Balls": 0, "Strikes": 2, "TaggedPitchType": "Fastball", "PitchCall": "InPlay", "TaggedHitType": "GroundBall", "PlayResult": "Out", "RelSpeed": 85.9854, "SpinRate": 1901.681192, "InducedVertBreak": 9.80193, "HorzBreak": 16.18576}, {"PitchNo": 121, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Fastball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 88.48431, "SpinRate": 1672.307393, "InducedVertBreak": 5.97256, "HorzBreak": -14.72013}, {"PitchNo": 122, "Balls": 1, "Strikes": 0, "TaggedPitchType": "Fastball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 90.44479, "SpinRate": 1701.825087, "InducedVertBreak": 5.76079, "HorzBreak": -13.2191}, {"PitchNo": 123, "Balls": 2, "Strikes": 0, "TaggedPitchType": "Fastball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 88.9664, "SpinRate": 1590.202872, "InducedVertBreak": 3.32587, "HorzBreak": -13.33146}, {"PitchNo": 124, "Balls": 3, "Strikes": 0, "TaggedPitchType": "Fastball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 88.58254, "SpinRate": 1519.078719, "InducedVertBreak": -0.29181, "HorzBreak": -14.03843}, {"PitchNo": 125, "Balls": 0, "Strikes": 0, "TaggedPitchType": "ChangeUp", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 83.51743, "SpinRate": 1301.541768, "InducedVertBreak": 6.99115, "HorzBreak": -4.72752}, {"PitchNo": 126, "Balls": 1, "Strikes": 0, "TaggedPitchType": "Fastball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 87.75579, "SpinRate": 1628.860842, "InducedVertBreak": 5.10134, "HorzBreak": -14.32808}, {"PitchNo": 127, "Balls": 2, "Strikes": 0, "TaggedPitchType": "Fastball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 87.5902, "SpinRate": 1575.061467, "InducedVertBreak": 4.31677, "HorzBreak": -13.61367}, {"PitchNo": 128, "Balls": 3, "Strikes": 0, "TaggedPitchType": "Fastball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 88.6671, "SpinRate": 1605.343747, "InducedVertBreak": 6.01784, "HorzBreak": -17.1193}, {"PitchNo": 129, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Curveball", "PitchCall": "StrikeCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 79.85482, "SpinRate": 2569.873537, "InducedVertBreak": -4.46422, "HorzBreak": -3.2461}, {"PitchNo": 130, "Balls": 0, "Strikes": 1, "TaggedPitchType": "Curveball", "PitchCall": "StrikeCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 79.99285, "SpinRate": 2569.830492, "InducedVertBreak": -6.45949, "HorzBreak": -2.73748}, {"PitchNo": 131, "Balls": 0, "Strikes": 2, "TaggedPitchType": "Fastball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 91.3753, "SpinRate": 2392.164642, "InducedVertBreak": 18.78777, "HorzBreak": 6.40386}, {"PitchNo": 132, "Balls": 1, "Strikes": 2, "TaggedPitchType": "Curveball", "PitchCall": "StrikeSwinging", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 80.327, "SpinRate": 2737.538439, "InducedVertBreak": -5.17303, "HorzBreak": -3.00004}, {"PitchNo": 133, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Curveball", "PitchCall": "StrikeCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 80.83889, "SpinRate": 2643.411541, "InducedVertBreak": -4.03358, "HorzBreak": -1.82173}, {"PitchNo": 134, "Balls": 0, "Strikes": 1, "TaggedPitchType": "Curveball", "PitchCall": "FoulBallNotFieldable", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 81.33393, "SpinRate": 2705.149275, "InducedVertBreak": -6.15516, "HorzBreak": -4.18016}, {"PitchNo": 135, "Balls": 0, "Strikes": 2, "TaggedPitchType": "Fastball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 90.24585, "SpinRate": 2437.720951, "InducedVertBreak": 14.60052, "HorzBreak": 5.44347}, {"PitchNo": 136, "Balls": 1, "Strikes": 2, "TaggedPitchType": "Fastball", "PitchCall": "InPlay", "TaggedHitType": "GroundBall", "PlayResult": "Out", "RelSpeed": 90.11048, "SpinRate": 2432.755928, "InducedVertBreak": 16.60501, "HorzBreak": 5.20244}, {"PitchNo": 137, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Sinker", "PitchCall": "StrikeSwinging", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 83.33264, "SpinRate": 1802.584937, "InducedVertBreak": 11.54969, "HorzBreak": 17.46458}, {"PitchNo": 138, "Balls": 0, "Strikes": 1, "TaggedPitchType": "ChangeUp", "PitchCall": "StrikeCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 71.44815, "SpinRate": 1595.526136, "InducedVertBreak": 1.54969, "HorzBreak": 11.02894}, {"PitchNo": 139, "Balls": 0, "Strikes": 2, "TaggedPitchType": "Sinker", "PitchCall": "InPlay", "TaggedHitType": "GroundBall", "PlayResult": "Single", "RelSpeed": 84.33828, "SpinRate": 1832.876049, "InducedVertBreak": 13.37438, "HorzBreak": 16.86891}, {"PitchNo": 140, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Curveball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 71.52062, "SpinRate": 1816.249334, "InducedVertBreak": 5.14855, "HorzBreak": -4.9604}, {"PitchNo": 141, "Balls": 1, "Strikes": 0, "TaggedPitchType": "ChangeUp", "PitchCall": "FoulBallNotFieldable", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 71.56487, "SpinRate": 1588.641447, "InducedVertBreak": 0.54874, "HorzBreak": 12.17072}, {"PitchNo": 142, "Balls": 1, "Strikes": 1, "TaggedPitchType": "Curveball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 73.07327, "SpinRate": 1721.233452, "InducedVertBreak": 2.2813, "HorzBreak": 2.15315}, {"PitchNo": 143, "Balls": 2, "Strikes": 1, "TaggedPitchType": "Sinker", "PitchCall": "InPlay", "TaggedHitType": "GroundBall", "PlayResult": "FieldersChoice", "RelSpeed": 84.0027, "SpinRate": 1789.659732, "InducedVertBreak": 12.15871, "HorzBreak": 13.70355}, {"PitchNo": 144, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Sinker", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 85.3372, "SpinRate": 1977.454538, "InducedVertBreak": 15.21741, "HorzBreak": 21.74265}, {"PitchNo": 145, "Balls": 1, "Strikes": 0, "TaggedPitchType": "ChangeUp", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 71.74464, "SpinRate": 1553.190617, "InducedVertBreak": -0.62217, "HorzBreak": 13.43253}, {"PitchNo": 146, "Balls": 2, "Strikes": 0, "TaggedPitchType": "Sinker", "PitchCall": "InPlay", "TaggedHitType": "FlyBall", "PlayResult": "HomeRun", "RelSpeed": 84.6167, "SpinRate": 1870.182535, "InducedVertBreak": 11.70788, "HorzBreak": 13.2302}, {"PitchNo": 147, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Curveball", "PitchCall": "InPlay", "TaggedHitType": "GroundBall", "PlayResult": "Error", "RelSpeed": 71.84644, "SpinRate": 1679.501711, "InducedVertBreak": -1.61032, "HorzBreak": -6.87154}, {"PitchNo": 148, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Curveball", "PitchCall": "StrikeCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 71.64618, "SpinRate": 1792.808546, "InducedVertBreak": 3.56752, "HorzBreak": -6.50544}, {"PitchNo": 149, "Balls": 0, "Strikes": 1, "TaggedPitchType": "ChangeUp", "PitchCall": "StrikeSwinging", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 71.29157, "SpinRate": 1671.786378, "InducedVertBreak": 1.32075, "HorzBreak": 14.51654}, {"PitchNo": 150, "Balls": 0, "Strikes": 2, "TaggedPitchType": "ChangeUp", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 71.88286, "SpinRate": 1622.999505, "InducedVertBreak": 0.93382, "HorzBreak": 13.15139}, {"PitchNo": 151, "Balls": 1, "Strikes": 2, "TaggedPitchType": "Curveball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 73.55919, "SpinRate": 1824.929431, "InducedVertBreak": -0.51016, "HorzBreak": -1.19272}, {"PitchNo": 152, "Balls": 2, "Strikes": 2, "TaggedPitchType": "ChangeUp", "PitchCall": "FoulBallNotFieldable", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 72.35042, "SpinRate": 1510.659921, "InducedVertBreak": -3.57103, "HorzBreak": 11.87347}, {"PitchNo": 153, "Balls": 2, "Strikes": 2, "TaggedPitchType": "Curveball", "PitchCall": "InPlay", "TaggedHitType": "GroundBall", "PlayResult": "Out", "RelSpeed": 71.52979, "SpinRate": 1819.341194, "InducedVertBreak": 1.10689, "HorzBreak": -0.34295}, {"PitchNo": 154, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Fastball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 81.5289, "SpinRate": 1872.419603, "InducedVertBreak": 15.57139, "HorzBreak": -13.25036}, {"PitchNo": 155, "Balls": 1, "Strikes": 0, "TaggedPitchType": "Fastball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 80.27397, "SpinRate": 1708.489341, "InducedVertBreak": 10.71457, "HorzBreak": -11.95745}, {"PitchNo": 156, "Balls": 2, "Strikes": 0, "TaggedPitchType": "Fastball", "PitchCall": "FoulBallNotFieldable", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 82.03777, "SpinRate": 1760.90782, "InducedVertBreak": 5.24532, "HorzBreak": -14.09115}, {"PitchNo": 157, "Balls": 2, "Strikes": 1, "TaggedPitchType": "Fastball", "PitchCall": "InPlay", "TaggedHitType": "FlyBall", "PlayResult": "Out", "RelSpeed": 81.69679, "SpinRate": 1871.303663, "InducedVertBreak": 12.57701, "HorzBreak": -10.87835}, {"PitchNo": 158, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Curveball", "PitchCall": "FoulBallNotFieldable", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 79.57739, "SpinRate": 2626.552936, "InducedVertBreak": -7.92914, "HorzBreak": -1.19819}, {"PitchNo": 159, "Balls": 0, "Strikes": 1, "TaggedPitchType": "Fastball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 88.52437, "SpinRate": 2306.239984, "InducedVertBreak": 15.10926, "HorzBreak": 5.28646}, {"PitchNo": 160, "Balls": 1, "Strikes": 1, "TaggedPitchType": "Fastball", "PitchCall": "FoulBallNotFieldable", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 89.48804, "SpinRate": 2424.994319, "InducedVertBreak": 14.15745, "HorzBreak": 2.71095}, {"PitchNo": 161, "Balls": 1, "Strikes": 2, "TaggedPitchType": "Curveball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 79.56214, "SpinRate": 2711.114523, "InducedVertBreak": -7.45654, "HorzBreak": -9.40595}, {"PitchNo": 162, "Balls": 2, "Strikes": 2, "TaggedPitchType": "Curveball", "PitchCall": "FoulBallNotFieldable", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 79.92607, "SpinRate": 2658.267909, "InducedVertBreak": -5.00362, "HorzBreak": -0.97913}, {"PitchNo": 163, "Balls": 2, "Strikes": 2, "TaggedPitchType": "Fastball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 89.99897, "SpinRate": 2499.770067, "InducedVertBreak": 17.32879, "HorzBreak": 5.37473}, {"PitchNo": 164, "Balls": 3, "Strikes": 2, "TaggedPitchType": "Curveball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 79.63005, "SpinRate": 2678.363429, "InducedVertBreak": -8.72347, "HorzBreak": -3.25303}, {"PitchNo": 165, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Curveball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 79.73927, "SpinRate": 2661.804366, "InducedVertBreak": -4.03827, "HorzBreak": -1.11898}, {"PitchNo": 166, "Balls": 1, "Strikes": 0, "TaggedPitchType": "Fastball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 87.9217, "SpinRate": 2506.751476, "InducedVertBreak": 16.04288, "HorzBreak": 5.35953}, {"PitchNo": 167, "Balls": 2, "Strikes": 0, "TaggedPitchType": "Curveball", "PitchCall": "StrikeSwinging", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 80.14047, "SpinRate": 2744.082228, "InducedVertBreak": -6.64311, "HorzBreak": -7.76839}, {"PitchNo": 168, "Balls": 2, "Strikes": 1, "TaggedPitchType": "Curveball", "PitchCall": "StrikeCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 79.05192, "SpinRate": 2809.835458, "InducedVertBreak": -7.5426, "HorzBreak": -4.65481}, {"PitchNo": 169, "Balls": 2, "Strikes": 2, "TaggedPitchType": "Curveball", "PitchCall": "StrikeSwinging", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 79.60311, "SpinRate": 2725.33225, "InducedVertBreak": -9.01717, "HorzBreak": -2.99662}, {"PitchNo": 170, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Curveball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 78.83642, "SpinRate": 2714.154317, "InducedVertBreak": -5.80953, "HorzBreak": 0.1522}, {"PitchNo": 171, "Balls": 1, "Strikes": 0, "TaggedPitchType": "Fastball", "PitchCall": "InPlay", "TaggedHitType": "LineDrive", "PlayResult": "Double", "RelSpeed": 89.13242, "SpinRate": 2475.588307, "InducedVertBreak": 19.48119, "HorzBreak": 7.8989}, {"PitchNo": 172, "Balls": 0, "Strikes": 0, "TaggedPitchType": "ChangeUp", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 79.53556, "SpinRate": 2656.943601, "InducedVertBreak": -7.24796, "HorzBreak": -1.82685}, {"PitchNo": 173, "Balls": 1, "Strikes": 0, "TaggedPitchType": "Curveball", "PitchCall": "InPlay", "TaggedHitType": "GroundBall", "PlayResult": "Out", "RelSpeed": 79.2534, "SpinRate": 2784.777276, "InducedVertBreak": -6.18969, "HorzBreak": -1.2391}, {"PitchNo": 174, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Fastball", "PitchCall": "StrikeCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 88.98192, "SpinRate": 2460.652389, "InducedVertBreak": 15.74379, "HorzBreak": 5.12063}, {"PitchNo": 175, "Balls": 0, "Strikes": 1, "TaggedPitchType": "Curveball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 80.69498, "SpinRate": 2757.460936, "InducedVertBreak": -7.90323, "HorzBreak": -7.95351}, {"PitchNo": 176, "Balls": 1, "Strikes": 1, "TaggedPitchType": "Curveball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 79.95445, "SpinRate": 2803.567305, "InducedVertBreak": -8.90052, "HorzBreak": -10.65548}, {"PitchNo": 177, "Balls": 2, "Strikes": 1, "TaggedPitchType": "Curveball", "PitchCall": "StrikeCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 79.50382, "SpinRate": 2774.846724, "InducedVertBreak": -7.74504, "HorzBreak": -7.12827}, {"PitchNo": 178, "Balls": 2, "Strikes": 2, "TaggedPitchType": "Curveball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 79.59495, "SpinRate": 2871.185725, "InducedVertBreak": -7.76256, "HorzBreak": -6.55536}, {"PitchNo": 179, "Balls": 3, "Strikes": 2, "TaggedPitchType": "Curveball", "PitchCall": "InPlay", "TaggedHitType": "Popup", "PlayResult": "Out", "RelSpeed": 79.60091, "SpinRate": 2704.947307, "InducedVertBreak": -5.76414, "HorzBreak": -1.78665}, {"PitchNo": 180, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Slider", "PitchCall": "FoulBallNotFieldable", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 75.66593, "SpinRate": 2032.680257, "InducedVertBreak": -3.10268, "HorzBreak": -10.20914}, {"PitchNo": 181, "Balls": 0, "Strikes": 1, "TaggedPitchType": "Fastball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 87.68821, "SpinRate": 1629.472522, "InducedVertBreak": 9.15004, "HorzBreak": 6.99087}, {"PitchNo": 182, "Balls": 1, "Strikes": 1, "TaggedPitchType": "Slider", "PitchCall": "StrikeSwinging", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 76.87164, "SpinRate": 1809.20525, "InducedVertBreak": 2.32606, "HorzBreak": -8.77343}, {"PitchNo": 183, "Balls": 1, "Strikes": 2, "TaggedPitchType": "Slider", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 77.29546, "SpinRate": 2164.588227, "InducedVertBreak": 7.20953, "HorzBreak": -9.34512}, {"PitchNo": 184, "Balls": 2, "Strikes": 2, "TaggedPitchType": "ChangeUp", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 83.27543, "SpinRate": 1964.461726, "InducedVertBreak": 7.00756, "HorzBreak": 6.04079}, {"PitchNo": 185, "Balls": 3, "Strikes": 2, "TaggedPitchType": "Slider", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 77.30155, "SpinRate": 2033.946774, "InducedVertBreak": 0.4276, "HorzBreak": -9.56595}, {"PitchNo": 186, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Sinker", "PitchCall": "InPlay", "TaggedHitType": "GroundBall", "PlayResult": "Out", "RelSpeed": 88.59109, "SpinRate": 2059.85271, "InducedVertBreak": 10.96906, "HorzBreak": 13.77879}, {"PitchNo": 187, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Sinker", "PitchCall": "InPlay", "TaggedHitType": "GroundBall", "PlayResult": "Single", "RelSpeed": 88.31681, "SpinRate": 1822.401681, "InducedVertBreak": 9.99276, "HorzBreak": 12.49363}, {"PitchNo": 188, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Fastball", "PitchCall": "InPlay", "TaggedHitType": "FlyBall", "PlayResult": "Out", "RelSpeed": 87.81459, "SpinRate": 1819.829915, "InducedVertBreak": 12.73564, "HorzBreak": 8.54953}, {"PitchNo": 189, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Curveball", "PitchCall": "StrikeCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 79.62758, "SpinRate": 2484.787382, "InducedVertBreak": -4.51051, "HorzBreak": -2.55827}, {"PitchNo": 190, "Balls": 0, "Strikes": 1, "TaggedPitchType": "Curveball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 79.64763, "SpinRate": 2752.299784, "InducedVertBreak": -7.33213, "HorzBreak": -0.80827}, {"PitchNo": 191, "Balls": 1, "Strikes": 1, "TaggedPitchType": "Fastball", "PitchCall": "InPlay", "TaggedHitType": "LineDrive", "PlayResult": "Error", "RelSpeed": 89.29691, "SpinRate": 2404.958395, "InducedVertBreak": 17.09757, "HorzBreak": 7.34248}, {"PitchNo": 192, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Curveball", "PitchCall": "StrikeSwinging", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 78.93412, "SpinRate": 2686.537267, "InducedVertBreak": -3.82882, "HorzBreak": -5.5617}, {"PitchNo": 193, "Balls": 0, "Strikes": 1, "TaggedPitchType": "Curveball", "PitchCall": "FoulBallNotFieldable", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 79.71998, "SpinRate": 2681.908067, "InducedVertBreak": -5.73032, "HorzBreak": -0.76705}, {"PitchNo": 194, "Balls": 0, "Strikes": 2, "TaggedPitchType": "Curveball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 79.39348, "SpinRate": 2682.689623, "InducedVertBreak": -8.76394, "HorzBreak": -3.46524}, {"PitchNo": 195, "Balls": 1, "Strikes": 2, "TaggedPitchType": "Curveball", "PitchCall": "FoulBallNotFieldable", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 78.93918, "SpinRate": 2715.772862, "InducedVertBreak": -7.22855, "HorzBreak": -9.20063}, {"PitchNo": 196, "Balls": 1, "Strikes": 2, "TaggedPitchType": "Curveball", "PitchCall": "FoulBallNotFieldable", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 80.21459, "SpinRate": 2715.202324, "InducedVertBreak": -5.92307, "HorzBreak": -1.13504}, {"PitchNo": 197, "Balls": 1, "Strikes": 2, "TaggedPitchType": "Slider", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 81.01113, "SpinRate": 2548.889041, "InducedVertBreak": 2.44236, "HorzBreak": -12.46867}, {"PitchNo": 198, "Balls": 2, "Strikes": 2, "TaggedPitchType": "Fastball", "PitchCall": "InPlay", "TaggedHitType": "FlyBall", "PlayResult": "Out", "RelSpeed": 89.5442, "SpinRate": 2425.318837, "InducedVertBreak": 21.68383, "HorzBreak": 7.16867}, {"PitchNo": 199, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Curveball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 79.45108, "SpinRate": 2633.180025, "InducedVertBreak": -4.77709, "HorzBreak": 0.46854}, {"PitchNo": 200, "Balls": 1, "Strikes": 0, "TaggedPitchType": "Curveball", "PitchCall": "FoulBallNotFieldable", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 78.80476, "SpinRate": 2645.517691, "InducedVertBreak": -6.87111, "HorzBreak": -1.57992}, {"PitchNo": 201, "Balls": 1, "Strikes": 1, "TaggedPitchType": "Curveball", "PitchCall": "StrikeSwinging", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 79.69022, "SpinRate": 2670.828287, "InducedVertBreak": -6.95989, "HorzBreak": -0.46681}, {"PitchNo": 202, "Balls": 1, "Strikes": 2, "TaggedPitchType": "Curveball", "PitchCall": "StrikeSwinging", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 81.39126, "SpinRate": 2636.456573, "InducedVertBreak": -5.94209, "HorzBreak": -9.52095}, {"PitchNo": 203, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Curveball", "PitchCall": "InPlay", "TaggedHitType": "LineDrive", "PlayResult": "Out", "RelSpeed": 79.01617, "SpinRate": 2736.172729, "InducedVertBreak": -7.97559, "HorzBreak": -11.64634}, {"PitchNo": 204, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Fastball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 87.53056, "SpinRate": 1975.243731, "InducedVertBreak": 14.14032, "HorzBreak": 9.0154}, {"PitchNo": 205, "Balls": 1, "Strikes": 0, "TaggedPitchType": "Fastball", "PitchCall": "StrikeCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 87.9859, "SpinRate": 2024.15094, "InducedVertBreak": 14.03867, "HorzBreak": 6.22689}, {"PitchNo": 206, "Balls": 1, "Strikes": 1, "TaggedPitchType": "Slider", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 77.20028, "SpinRate": 1921.924887, "InducedVertBreak": -0.71004, "HorzBreak": -1.86642}, {"PitchNo": 207, "Balls": 2, "Strikes": 1, "TaggedPitchType": "Fastball", "PitchCall": "StrikeCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 88.11676, "SpinRate": 2061.151794, "InducedVertBreak": 13.53383, "HorzBreak": 12.83961}, {"PitchNo": 208, "Balls": 2, "Strikes": 2, "TaggedPitchType": "Sinker", "PitchCall": "InPlay", "TaggedHitType": "GroundBall", "PlayResult": "Out", "RelSpeed": 88.05721, "SpinRate": 1993.675263, "InducedVertBreak": 9.68953, "HorzBreak": 14.36768}, {"PitchNo": 209, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Slider", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 78.27185, "SpinRate": 1995.10394, "InducedVertBreak": 5.00319, "HorzBreak": -3.31914}, {"PitchNo": 210, "Balls": 1, "Strikes": 0, "TaggedPitchType": "Fastball", "PitchCall": "FoulBallNotFieldable", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 88.76089, "SpinRate": 2008.258945, "InducedVertBreak": 14.02989, "HorzBreak": 14.89269}, {"PitchNo": 211, "Balls": 1, "Strikes": 1, "TaggedPitchType": "Slider", "PitchCall": "FoulBallNotFieldable", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 79.1319, "SpinRate": 2167.859753, "InducedVertBreak": 8.48248, "HorzBreak": -7.85784}, {"PitchNo": 212, "Balls": 1, "Strikes": 2, "TaggedPitchType": "Slider", "PitchCall": "InPlay", "TaggedHitType": "FlyBall", "PlayResult": "Out", "RelSpeed": 78.39433, "SpinRate": 1853.179128, "InducedVertBreak": -1.04158, "HorzBreak": -13.66997}, {"PitchNo": 213, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Slider", "PitchCall": "HitByPitch", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 78.25211, "SpinRate": 1671.725935, "InducedVertBreak": 0.69705, "HorzBreak": -1.30681}, {"PitchNo": 214, "Balls": 0, "Strikes": 0, "TaggedPitchType": "ChangeUp", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 84.27782, "SpinRate": 1861.524972, "InducedVertBreak": 10.47776, "HorzBreak": 8.36229}, {"PitchNo": 215, "Balls": 1, "Strikes": 0, "TaggedPitchType": "ChangeUp", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 84.23995, "SpinRate": 1901.165535, "InducedVertBreak": 6.28197, "HorzBreak": 16.23367}, {"PitchNo": 216, "Balls": 2, "Strikes": 0, "TaggedPitchType": "Slider", "PitchCall": "StrikeCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 76.43733, "SpinRate": 2071.042729, "InducedVertBreak": -2.6111, "HorzBreak": -8.94351}, {"PitchNo": 217, "Balls": 2, "Strikes": 1, "TaggedPitchType": "Slider", "PitchCall": "StrikeCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 76.2052, "SpinRate": 1866.940498, "InducedVertBreak": -3.39933, "HorzBreak": -13.92442}, {"PitchNo": 218, "Balls": 2, "Strikes": 2, "TaggedPitchType": "Sinker", "PitchCall": "StrikeCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 87.65895, "SpinRate": 1896.152155, "InducedVertBreak": 6.20134, "HorzBreak": 12.05835}, {"PitchNo": 219, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Curveball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 77.9162, "SpinRate": 2629.70943, "InducedVertBreak": -5.85965, "HorzBreak": -3.2626}, {"PitchNo": 220, "Balls": 1, "Strikes": 0, "TaggedPitchType": "Fastball", "PitchCall": "InPlay", "TaggedHitType": "GroundBall", "PlayResult": "Out", "RelSpeed": 88.51186, "SpinRate": 2360.471011, "InducedVertBreak": 16.25899, "HorzBreak": 7.27965}, {"PitchNo": 221, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Fastball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 88.61228, "SpinRate": 2409.948927, "InducedVertBreak": 14.5106, "HorzBreak": 2.79768}, {"PitchNo": 222, "Balls": 1, "Strikes": 0, "TaggedPitchType": "Curveball", "PitchCall": "FoulBallNotFieldable", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 78.33783, "SpinRate": 2563.95632, "InducedVertBreak": -6.60477, "HorzBreak": -5.10465}, {"PitchNo": 223, "Balls": 1, "Strikes": 1, "TaggedPitchType": "Slider", "PitchCall": "StrikeSwinging", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 80.8479, "SpinRate": 2620.389474, "InducedVertBreak": 4.95418, "HorzBreak": -8.14028}, {"PitchNo": 224, "Balls": 1, "Strikes": 2, "TaggedPitchType": "Slider", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 82.15341, "SpinRate": 2673.583328, "InducedVertBreak": 4.32555, "HorzBreak": -10.48886}, {"PitchNo": 225, "Balls": 2, "Strikes": 2, "TaggedPitchType": "Slider", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 81.85589, "SpinRate": 2530.256839, "InducedVertBreak": 1.53425, "HorzBreak": -3.43929}, {"PitchNo": 226, "Balls": 3, "Strikes": 2, "TaggedPitchType": "Curveball", "PitchCall": "StrikeCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 78.9991, "SpinRate": 2635.820968, "InducedVertBreak": -6.12685, "HorzBreak": -7.93626}, {"PitchNo": 227, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Curveball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 79.53212, "SpinRate": 2736.737425, "InducedVertBreak": -3.92445, "HorzBreak": -5.65914}, {"PitchNo": 228, "Balls": 1, "Strikes": 0, "TaggedPitchType": "Curveball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 78.76316, "SpinRate": 2673.634603, "InducedVertBreak": -11.71772, "HorzBreak": -1.98106}, {"PitchNo": 229, "Balls": 2, "Strikes": 0, "TaggedPitchType": "Fastball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 90.04109, "SpinRate": 2437.458441, "InducedVertBreak": 16.86107, "HorzBreak": 1.17004}, {"PitchNo": 230, "Balls": 3, "Strikes": 0, "TaggedPitchType": "Slider", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 81.82771, "SpinRate": 2667.527827, "InducedVertBreak": -0.52961, "HorzBreak": -10.35241}, {"PitchNo": 231, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Curveball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 79.0892, "SpinRate": 2651.523166, "InducedVertBreak": -3.32618, "HorzBreak": -9.13536}, {"PitchNo": 232, "Balls": 1, "Strikes": 0, "TaggedPitchType": "Curveball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 79.30212, "SpinRate": 2668.035374, "InducedVertBreak": -9.76701, "HorzBreak": -1.55177}, {"PitchNo": 233, "Balls": 2, "Strikes": 0, "TaggedPitchType": "Curveball", "PitchCall": "StrikeCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 78.51575, "SpinRate": 2643.033517, "InducedVertBreak": -5.36229, "HorzBreak": -7.19544}, {"PitchNo": 234, "Balls": 2, "Strikes": 1, "TaggedPitchType": "Curveball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 79.45576, "SpinRate": 2622.370633, "InducedVertBreak": -8.87607, "HorzBreak": -1.73791}, {"PitchNo": 235, "Balls": 3, "Strikes": 1, "TaggedPitchType": "Curveball", "PitchCall": "StrikeCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 78.48574, "SpinRate": 2629.885146, "InducedVertBreak": -4.59654, "HorzBreak": -7.19705}, {"PitchNo": 236, "Balls": 3, "Strikes": 2, "TaggedPitchType": "Curveball", "PitchCall": "InPlay", "TaggedHitType": "LineDrive", "PlayResult": "Single", "RelSpeed": 79.38951, "SpinRate": 2693.438958, "InducedVertBreak": -4.69083, "HorzBreak": -5.48516}, {"PitchNo": 237, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Slider", "PitchCall": "InPlay", "TaggedHitType": "GroundBall", "PlayResult": "Out", "RelSpeed": 77.60103, "SpinRate": 2430.989808, "InducedVertBreak": 5.11292, "HorzBreak": -9.65504}, {"PitchNo": 238, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Curveball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 77.76831, "SpinRate": 2013.903483, "InducedVertBreak": 5.74969, "HorzBreak": -12.93453}, {"PitchNo": 239, "Balls": 1, "Strikes": 0, "TaggedPitchType": "ChangeUp", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 72.75464, "SpinRate": 1191.819652, "InducedVertBreak": 13.73505, "HorzBreak": 2.7187}, {"PitchNo": 240, "Balls": 2, "Strikes": 0, "TaggedPitchType": "Cutter", "PitchCall": "InPlay", "TaggedHitType": "LineDrive", "PlayResult": "Single", "RelSpeed": 84.3016, "SpinRate": 1974.45581, "InducedVertBreak": 15.69418, "HorzBreak": -1.96504}, {"PitchNo": 241, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Curveball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 77.3301, "SpinRate": 1904.425482, "InducedVertBreak": 5.47587, "HorzBreak": -6.31847}, {"PitchNo": 242, "Balls": 1, "Strikes": 0, "TaggedPitchType": "Cutter", "PitchCall": "StrikeCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 84.25554, "SpinRate": 1918.902733, "InducedVertBreak": 15.71119, "HorzBreak": -1.25787}, {"PitchNo": 243, "Balls": 1, "Strikes": 1, "TaggedPitchType": "Curveball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 68.84889, "SpinRate": 2071.171281, "InducedVertBreak": -5.83807, "HorzBreak": -5.89689}, {"PitchNo": 244, "Balls": 2, "Strikes": 1, "TaggedPitchType": "Cutter", "PitchCall": "StrikeSwinging", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 84.3392, "SpinRate": 1770.193474, "InducedVertBreak": 17.91056, "HorzBreak": -3.0589}, {"PitchNo": 245, "Balls": 2, "Strikes": 2, "TaggedPitchType": "ChangeUp", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 73.26885, "SpinRate": 927.305312, "InducedVertBreak": 10.18788, "HorzBreak": 1.89543}, {"PitchNo": 246, "Balls": 3, "Strikes": 2, "TaggedPitchType": "Cutter", "PitchCall": "InPlay", "TaggedHitType": "LineDrive", "PlayResult": "Double", "RelSpeed": 85.31408, "SpinRate": 1904.296533, "InducedVertBreak": 17.56458, "HorzBreak": -3.86953}, {"PitchNo": 247, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Curveball", "PitchCall": "InPlay", "TaggedHitType": "Popup", "PlayResult": "Out", "RelSpeed": 77.05755, "SpinRate": 2070.294597, "InducedVertBreak": 6.03729, "HorzBreak": -6.78977}, {"PitchNo": 248, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Fastball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 89.48793, "SpinRate": 2112.288741, "InducedVertBreak": 17.90489, "HorzBreak": 4.24886}, {"PitchNo": 249, "Balls": 1, "Strikes": 0, "TaggedPitchType": "Fastball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 89.25667, "SpinRate": 2140.224184, "InducedVertBreak": 20.85529, "HorzBreak": 4.6989}, {"PitchNo": 250, "Balls": 2, "Strikes": 0, "TaggedPitchType": "Slider", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 76.81095, "SpinRate": 2506.333333, "InducedVertBreak": 9.95461, "HorzBreak": -12.73465}, {"PitchNo": 251, "Balls": 3, "Strikes": 0, "TaggedPitchType": "Fastball", "PitchCall": "StrikeCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 88.04503, "SpinRate": 2309.991057, "InducedVertBreak": 20.26788, "HorzBreak": 9.00142}, {"PitchNo": 252, "Balls": 3, "Strikes": 1, "TaggedPitchType": "Fastball", "PitchCall": "StrikeCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 89.49451, "SpinRate": 2179.805638, "InducedVertBreak": 21.01434, "HorzBreak": 1.72063}, {"PitchNo": 253, "Balls": 3, "Strikes": 2, "TaggedPitchType": "Fastball", "PitchCall": "StrikeCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 90.50329, "SpinRate": 2210.443758, "InducedVertBreak": 20.07588, "HorzBreak": 4.51874}, {"PitchNo": 254, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Fastball", "PitchCall": "StrikeCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 89.75675, "SpinRate": 2078.57556, "InducedVertBreak": 19.22462, "HorzBreak": 3.33788}, {"PitchNo": 255, "Balls": 0, "Strikes": 1, "TaggedPitchType": "Fastball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 89.6435, "SpinRate": 2157.949575, "InducedVertBreak": 17.18607, "HorzBreak": -0.38961}, {"PitchNo": 256, "Balls": 1, "Strikes": 1, "TaggedPitchType": "Slider", "PitchCall": "FoulBallNotFieldable", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 78.36172, "SpinRate": 2443.231047, "InducedVertBreak": 7.52493, "HorzBreak": -9.69276}, {"PitchNo": 257, "Balls": 1, "Strikes": 2, "TaggedPitchType": "Slider", "PitchCall": "FoulBallNotFieldable", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 79.23365, "SpinRate": 2542.439971, "InducedVertBreak": 6.7837, "HorzBreak": -10.61288}, {"PitchNo": 258, "Balls": 1, "Strikes": 2, "TaggedPitchType": "Slider", "PitchCall": "FoulBallNotFieldable", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 77.75821, "SpinRate": 2617.004876, "InducedVertBreak": 3.16866, "HorzBreak": -8.09158}, {"PitchNo": 259, "Balls": 1, "Strikes": 2, "TaggedPitchType": "Fastball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 91.00635, "SpinRate": 2153.479652, "InducedVertBreak": 17.45678, "HorzBreak": -1.14441}, {"PitchNo": 260, "Balls": 2, "Strikes": 2, "TaggedPitchType": "Fastball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 89.62161, "SpinRate": 2118.283355, "InducedVertBreak": 18.10651, "HorzBreak": -0.28181}, {"PitchNo": 261, "Balls": 3, "Strikes": 2, "TaggedPitchType": "Fastball", "PitchCall": "StrikeCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 91.01851, "SpinRate": 2229.093139, "InducedVertBreak": 17.73773, "HorzBreak": -0.39154}, {"PitchNo": 262, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Slider", "PitchCall": "StrikeSwinging", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 77.95542, "SpinRate": 2447.108416, "InducedVertBreak": 6.9743, "HorzBreak": -10.31162}, {"PitchNo": 263, "Balls": 0, "Strikes": 1, "TaggedPitchType": "Slider", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 79.30221, "SpinRate": 2505.168157, "InducedVertBreak": 6.57705, "HorzBreak": -8.99457}, {"PitchNo": 264, "Balls": 1, "Strikes": 1, "TaggedPitchType": "Slider", "PitchCall": "InPlay", "TaggedHitType": "FlyBall", "PlayResult": "Out", "RelSpeed": 78.0387, "SpinRate": 2381.052894, "InducedVertBreak": -1.50646, "HorzBreak": -15.38481}, {"PitchNo": 265, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Fastball", "PitchCall": "StrikeCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 83.86132, "SpinRate": 1869.853048, "InducedVertBreak": 15.15954, "HorzBreak": 2.16004}, {"PitchNo": 266, "Balls": 0, "Strikes": 1, "TaggedPitchType": "ChangeUp", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 74.74685, "SpinRate": 1207.025478, "InducedVertBreak": 10.29418, "HorzBreak": 5.47815}, {"PitchNo": 267, "Balls": 1, "Strikes": 1, "TaggedPitchType": "Cutter", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 84.97773, "SpinRate": 1955.923799, "InducedVertBreak": 20.32037, "HorzBreak": -1.5976}, {"PitchNo": 268, "Balls": 2, "Strikes": 1, "TaggedPitchType": "Curveball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 72.91703, "SpinRate": 1036.722139, "InducedVertBreak": 7.07032, "HorzBreak": -9.48752}, {"PitchNo": 269, "Balls": 3, "Strikes": 1, "TaggedPitchType": "Cutter", "PitchCall": "StrikeCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 83.88316, "SpinRate": 1905.022891, "InducedVertBreak": 15.37072, "HorzBreak": 1.37118}, {"PitchNo": 270, "Balls": 3, "Strikes": 2, "TaggedPitchType": "Fastball", "PitchCall": "StrikeCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 83.49853, "SpinRate": 1929.829292, "InducedVertBreak": 15.35458, "HorzBreak": 2.29067}, {"PitchNo": 271, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Fastball", "PitchCall": "InPlay", "TaggedHitType": "FlyBall", "PlayResult": "Out", "RelSpeed": 85.96004, "SpinRate": 1916.000953, "InducedVertBreak": 18.82946, "HorzBreak": 0.00819}, {"PitchNo": 272, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Fastball", "PitchCall": "StrikeCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 86.23212, "SpinRate": 2052.131935, "InducedVertBreak": 19.72249, "HorzBreak": 2.01291}, {"PitchNo": 273, "Balls": 0, "Strikes": 1, "TaggedPitchType": "Fastball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 87.86488, "SpinRate": 1962.531291, "InducedVertBreak": 21.46981, "HorzBreak": 0.27602}, {"PitchNo": 274, "Balls": 1, "Strikes": 1, "TaggedPitchType": "Fastball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 85.62251, "SpinRate": 1988.568936, "InducedVertBreak": 20.16867, "HorzBreak": 1.98382}, {"PitchNo": 275, "Balls": 2, "Strikes": 1, "TaggedPitchType": "Cutter", "PitchCall": "InPlay", "TaggedHitType": "Popup", "PlayResult": "Out", "RelSpeed": 83.47901, "SpinRate": 1881.749032, "InducedVertBreak": 15.05052, "HorzBreak": -2.18571}, {"PitchNo": 276, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Fastball", "PitchCall": "StrikeCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 89.09697, "SpinRate": 2173.273946, "InducedVertBreak": 18.11769, "HorzBreak": 1.55602}, {"PitchNo": 277, "Balls": 0, "Strikes": 1, "TaggedPitchType": "Slider", "PitchCall": "StrikeSwinging", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 79.00582, "SpinRate": 2466.225034, "InducedVertBreak": 8.39839, "HorzBreak": -7.73465}, {"PitchNo": 278, "Balls": 0, "Strikes": 2, "TaggedPitchType": "Fastball", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 89.3727, "SpinRate": 2163.424157, "InducedVertBreak": 18.15895, "HorzBreak": 4.32673}, {"PitchNo": 279, "Balls": 1, "Strikes": 2, "TaggedPitchType": "Slider", "PitchCall": "FoulBallNotFieldable", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 77.86929, "SpinRate": 2335.631279, "InducedVertBreak": 5.75016, "HorzBreak": -8.66682}, {"PitchNo": 280, "Balls": 1, "Strikes": 2, "TaggedPitchType": "Fastball", "PitchCall": "FoulBallNotFieldable", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 89.23407, "SpinRate": 2069.793123, "InducedVertBreak": 11.98942, "HorzBreak": 0.10071}, {"PitchNo": 281, "Balls": 1, "Strikes": 2, "TaggedPitchType": "Slider", "PitchCall": "InPlay", "TaggedHitType": "LineDrive", "PlayResult": "Out", "RelSpeed": 74.76914, "SpinRate": 2605.075255, "InducedVertBreak": 2.84059, "HorzBreak": -14.47288}, {"PitchNo": 282, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Fastball", "PitchCall": "InPlay", "TaggedHitType": "LineDrive", "PlayResult": "Single", "RelSpeed": 90.45967, "SpinRate": 2247.687039, "InducedVertBreak": 16.34989, "HorzBreak": 3.31457}, {"PitchNo": 283, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Slider", "PitchCall": "StrikeSwinging", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 77.52077, "SpinRate": 2583.482004, "InducedVertBreak": 3.09469, "HorzBreak": -15.2556}, {"PitchNo": 284, "Balls": 0, "Strikes": 1, "TaggedPitchType": "Slider", "PitchCall": "StrikeSwinging", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 78.8554, "SpinRate": 2535.266828, "InducedVertBreak": 4.93988, "HorzBreak": -13.72969}, {"PitchNo": 285, "Balls": 0, "Strikes": 2, "TaggedPitchType": "Slider", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 78.74202, "SpinRate": 2633.953804, "InducedVertBreak": 6.55788, "HorzBreak": -16.18351}, {"PitchNo": 286, "Balls": 1, "Strikes": 2, "TaggedPitchType": "Slider", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 76.74129, "SpinRate": 2557.789047, "InducedVertBreak": 2.05854, "HorzBreak": -16.56131}, {"PitchNo": 287, "Balls": 2, "Strikes": 2, "TaggedPitchType": "Fastball", "PitchCall": "InPlay", "TaggedHitType": "GroundBall", "PlayResult": "Single", "RelSpeed": 89.0327, "SpinRate": 2092.134772, "InducedVertBreak": 16.7545, "HorzBreak": 4.08811}, {"PitchNo": 288, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Slider", "PitchCall": "StrikeCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 78.81513, "SpinRate": 2434.10815, "InducedVertBreak": 11.16697, "HorzBreak": -7.65937}, {"PitchNo": 289, "Balls": 0, "Strikes": 1, "TaggedPitchType": "Slider", "PitchCall": "FoulBallNotFieldable", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 78.68686, "SpinRate": 2413.644757, "InducedVertBreak": 6.74985, "HorzBreak": -7.61882}, {"PitchNo": 290, "Balls": 0, "Strikes": 2, "TaggedPitchType": "Slider", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 77.7775, "SpinRate": 2486.166658, "InducedVertBreak": -1.97248, "HorzBreak": -11.55024}, {"PitchNo": 291, "Balls": 1, "Strikes": 2, "TaggedPitchType": "Fastball", "PitchCall": "InPlay", "TaggedHitType": "GroundBall", "PlayResult": "FieldersChoice", "RelSpeed": 88.69818, "SpinRate": 2184.333292, "InducedVertBreak": 15.93296, "HorzBreak": 3.9476}, {"PitchNo": 292, "Balls": 0, "Strikes": 0, "TaggedPitchType": "Slider", "PitchCall": "StrikeSwinging", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 79.78332, "SpinRate": 2440.413817, "InducedVertBreak": 8.71497, "HorzBreak": -5.68217}, {"PitchNo": 293, "Balls": 0, "Strikes": 1, "TaggedPitchType": "Slider", "PitchCall": "BallCalled", "TaggedHitType": "Undefined", "PlayResult": "Undefined", "RelSpeed": 78.88335, "SpinRate": 2479.635011, "InducedVertBreak": 7.37221, "HorzBreak": -2.84784}, {"PitchNo": 294, "Balls": 1, "Strikes": 1, "TaggedPitchType": "Slider", "PitchCall": "InPlay", "TaggedHitType": "FlyBall", "PlayResult": "Out", "RelSpeed": 79.77669, "SpinRate": 2455.019454, "InducedVertBreak": 4.18882, "HorzBreak": -7.93355}]}}, {"mode": "vega-lite"});
+</script>
+</div>
+</div>
+<p>The chart visualizes the movement profiles of our pitches, with color displaying the type of pitch and size indicating how fast they were thrown. These help us easily identify which pitches have similar movement profiles (and which categories they fall into) as well as which ones are faster than others.</p>
+<p>Here, we see a bit of clustering, which is helpful for us to successfully visualize where pitches should fall in terms of their movement profile. However, this chart suffers from a major issue: handedness of pitcher. The horizontal break of a pitcher directly corresponds to whether they are left or right handed; fastballs and changeups will move arm-side, while breaking balls will move glove-side. For example, we should expect positive horizontal break from a righty’s fastball and negative horizontal break from lefty’s fastball. I was hoping the graph would look relatively symmetric, but there likely isn’t an even split of left handed and right handed pitchers in baseball, so our expectations of symmetry aren’t exactly fulfilled. Furthermore, purely based on their movement profile (not factoring in speed or spin), two entirely different pitches can fall very close together on the chart since they’re thrown by different handed pitchers.</p>
+<p>Overall, this assignment was a fun way to explore the viability of certain visualizations as opposed to others, as well as experiment with some very creative Python libraries. I’m primarily an R user, but I can definitely see why Python is currently the industry standard for a versatile programming language.</p>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
