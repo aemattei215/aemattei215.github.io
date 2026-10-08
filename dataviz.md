@@ -2,7 +2,7 @@ Hello, and welcome to my dedicated section for data visualization projects!
 
 Below are following weekly projects that I completed for my data visualization class at GWU:
 
-**Project #1:** [Making Visualizations From Trackman Baseball Data](./datavizprojects/alexmatteihw2/hw2code.html)
+**Project #1:** [Making Visualizations From Trackman Baseball Data](./datavizprojects/hw2/alexmatteihw2.html)
 
 **Project #2:** [Using Water Quality Data to Draw Comparisons](./datavizprojects/hw3/hw3code.html)
 
