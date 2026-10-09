@@ -1,0 +1,12 @@
+Your Name:
+  name: "Alex Mattei"
+  avatar: "/assets/images/githubpfp.jpg" # Path to your profile picture
+  bio: "Sports statistics expert specializing in player evaluation and analysis."
+  location: "Washington, DC - Philadelphia, PA"
+  links:
+    - label: "GitHub"
+      icon: "fab fa-fw fa-github"
+      url: "https://aemattei215.github.io"
+    - label: "LinkedIn"
+      icon: "fab fa-fw fa-linkedin"
+      url: "www.linkedin.com/in/alexander-mattei-813221284"
