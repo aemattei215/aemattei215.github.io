@@ -1,1 +1,24 @@
+# Site Settings
+title: "Personal Portfolio"
+name: "Alex Mattei"
+description: "Sports Data Analyst"
+url: "https://aemattei215.github.io" # Change to your GitHub Pages URL
+baseurl: "" # Leave empty if your repo is named yourusername.github.io
+
+# Theme Configuration
+plugins:
+  - jekyll-remote-theme
+  - jekyll-include-cache
+
+remote_theme: "mmistakes/minimal-mistakes@4.24.4" # Locks to a stable version
+minimal_mistakes_skin: "default" # Options: air, aqua, contrast, dark, dirt, neon, mint, sunrise
+
+# Defaults for Layouts
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "single"
+      author_profile: true # Shows your sidebar profile on all pages
 
