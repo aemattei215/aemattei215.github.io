@@ -1,3 +1,9 @@
+---
+layout: single
+title: "Data Viz Projects"
+permalink: /dataviz/
+---
+
 Hello, and welcome to my dedicated section for data visualization projects! 
 
 Below are following weekly projects that I completed for my data visualization class at GWU:
