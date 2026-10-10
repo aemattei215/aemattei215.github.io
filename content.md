@@ -35,7 +35,7 @@ videos:
     title: "Second Take: Solo Host Episode w. Guests"
   - id: nW5WV36w3aQ
     title: "Second Take : NFL/NBA/MLB w. Guests"
-  - id: hmWPQS6pV4
+  - id: _hmWPQS6pV4
     title: "Second Take: NFL/NBA/MLB w. Guests"
   - id: 2Wrb0SgXt3U
     title: "Second Take: NFL + MLB Wild Card"
@@ -43,7 +43,7 @@ videos:
     title: "Second Take: NFL + MLB Playoff Predictions"
   - id: OZ3HCOzlNvE
     title: "Second Take: NFL + MLB Playoff Predictions (First Episode!)"
-  - id: EoJMxM5sEU
+  - id: _EoJMxM5sEU
     title: "Second Take: 2025 NFL Mock Draft"
   # ...add the rest of your ~20 here
 ---
