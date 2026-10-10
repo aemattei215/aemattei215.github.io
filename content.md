@@ -18,7 +18,7 @@ videos:
   - id: o6xXsEVoMzQ
     title: "Second Take: NBA Tanking + USA 2028 Olympic Roster"
   - id: aAJxPFDficc
-    title: "Second Take: NBA "Face of the Franchise, ROY Race"
+    title: "Second Take: NBA Face of the Franchise, ROY Race"
   - id: ZXTjf35GItg
     title: "Second Take: Super Bowl + NBA Trade Deadline"
   - id: msCnSwyhzWM
