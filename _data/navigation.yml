@@ -3,3 +3,5 @@ main:
     url: /about/
   - title: "Projects"
     url: /dataviz/
+  - title: "Content"
+    url: /content/
