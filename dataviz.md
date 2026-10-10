@@ -21,7 +21,7 @@ Please look at my data visualization projects below!
     <img src="/assets/images/pynbpp2.jpg" alt="Water Quality" style="border-radius: 6px; width: 100%; height: 180px; object-fit: cover; margin-bottom: 12px;">
     <h3 style="margin-top: 0; margin-bottom: 8px;">🤖 Water Quality Analysis</h3>
     <p style="font-size: 0.9em; color: #555; min-height: 60px;">Developing visualizations and group comparisons based on global water quality data.</p>
-    <a href="/datavizprojects/hw2/alexmatteihw2.html" class="btn btn--primary" style="margin: 0; display: block; text-align: center;">Open in Google Colab</a>
+    <a href="/datavizprojects/hw3/hw3code.html" class="btn btn--primary" style="margin: 0; display: block; text-align: center;">Open in Google Colab</a>
   </div>
 
 </div>
