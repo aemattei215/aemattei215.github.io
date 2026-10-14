@@ -1,7 +1,1 @@
-main:
-  - title: "About Me"
-    url: /about/
-  - title: "Projects"
-    url: /dataviz/
-  - title: "Content"
-    url: /content/
+main: []
