@@ -1,0 +1,16 @@
+{%- comment -%}
+  Usage: {% include project-grid.html %}            all projects in _data/projects.yml
+         {% include project-grid.html limit=4 %}    first 4 only
+{%- endcomment -%}
+{%- assign projects = site.data.projects -%}
+{%- if include.limit -%}{%- assign projects = projects | slice: 0, include.limit -%}{%- endif -%}
+<div class="project-grid">
+{%- for p in projects %}
+<div class="project-card">
+<img src="{{ p.image | relative_url }}" alt="{{ p.title | escape }}" loading="lazy">
+<h3>{{ p.title }}</h3>
+<p>{{ p.description }}</p>
+<a href="{{ p.url | relative_url }}" class="btn btn--primary">View Notebook</a>
+</div>
+{%- endfor %}
+</div>
