@@ -1,0 +1,166 @@
+---
+# Front matter dashes are required so Jekyll processes this file.
+---
+
+@charset "utf-8";
+
+@import "minimal-mistakes/skins/{{ site.minimal_mistakes_skin | default: 'default' }}";
+@import "minimal-mistakes";
+
+/* ---------- Home page sections ---------- */
+
+.page__content .portfolio-section {
+  padding-top: 1.5em;
+  margin-top: 2.5em;
+  border-top: 1px solid $border-color;
+  scroll-margin-top: 4em;
+}
+
+.page__content .portfolio-section:first-child {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+}
+
+.page__content .portfolio-section > h2 {
+  margin-top: 0;
+  border-bottom: none;
+}
+
+.section-more {
+  margin-top: 1em;
+  text-align: right;
+}
+
+/* ---------- Project cards ---------- */
+
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.25em;
+  margin: 1.5em 0;
+}
+
+.project-card {
+  display: flex;
+  flex-direction: column;
+  padding: 1em;
+  border: 1px solid $border-color;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+
+  img {
+    width: 100%;
+    height: 170px;
+    object-fit: cover;
+    border-radius: 6px;
+    margin-bottom: 0.75em;
+  }
+
+  h3 {
+    margin: 0 0 0.4em;
+    font-size: 1.05em;
+  }
+
+  p {
+    flex-grow: 1;
+    margin-bottom: 1em;
+    font-size: 0.9em;
+    color: $muted-text-color;
+  }
+
+  .btn {
+    display: block;
+    margin: 0;
+    text-align: center;
+  }
+}
+
+/* ---------- YouTube gallery ---------- */
+
+.yt-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.25em;
+  margin: 1.5em 0;
+}
+
+.yt-card {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  text-align: left;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.08);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+
+  &:hover,
+  &:focus-visible {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+    outline: none;
+  }
+}
+
+.yt-thumb-wrap {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 9;
+  background: #000;
+}
+
+.yt-thumb {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* crops hqdefault's letterbox bars */
+}
+
+.yt-play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 68px;
+  height: 48px;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.55);
+  border-radius: 12px;
+  transition: background 0.18s ease;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 52%;
+    transform: translate(-50%, -50%);
+    border-style: solid;
+    border-width: 10px 0 10px 18px;
+    border-color: transparent transparent transparent #fff;
+  }
+}
+
+.yt-card:hover .yt-play,
+.yt-card:focus-visible .yt-play {
+  background: #f00;
+}
+
+.yt-title {
+  display: block;
+  padding: 0.6em 0.75em 0.75em;
+  font-size: 0.95em;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.yt-frame {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 0;
+}
