@@ -2,7 +2,10 @@
 layout: single
 title: "Welcome to My Portfolio"
 author_profile: true
+classes: has-play-hero
 ---
+
+{% include play-hero.html %}
 
 <section id="about" class="portfolio-section" markdown="1">
 
