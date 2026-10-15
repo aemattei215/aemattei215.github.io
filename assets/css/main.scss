@@ -16,7 +16,7 @@
   scroll-margin-top: 4em;
 }
 
-.page__content .portfolio-section:first-child {
+.page__content .portfolio-section:first-of-type {
   margin-top: 0;
   padding-top: 0;
   border-top: none;
@@ -163,4 +163,351 @@
   width: 100%;
   aspect-ratio: 16 / 9;
   border: 0;
+}
+
+/* ---------- Home page hero: Philly Special play diagram ---------- */
+
+$ph-field-a: #e9f4f2;
+$ph-field-b: #e2efed;
+$ph-line: rgba(17, 153, 158, 0.22);
+$ph-ink: $text-color;
+$ph-teal: $primary-color;
+$ph-mint: #30e3ca;
+
+/* Visually hide the "Welcome to My Portfolio" heading on the home page; the
+   hero's name banner takes its place, but screen readers still get the h1. */
+.has-play-hero .page__title {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.play-hero {
+  margin: 0 0 2em;
+  border: 1px solid $border-color;
+  border-radius: 12px;
+  overflow: hidden;
+  background: $ph-teal;
+  box-shadow: 0 6px 24px rgba(17, 153, 158, 0.12);
+}
+
+.ph-field {
+  position: relative;
+  aspect-ratio: 800 / 360;
+  background: repeating-linear-gradient(90deg, $ph-field-a 0 12.5%, $ph-field-b 12.5% 25%);
+}
+
+.ph-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.ph-endzone { fill: rgba(17, 153, 158, 0.1); }
+
+.ph-endzone__label {
+  fill: rgba(17, 153, 158, 0.3);
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 0.3em;
+  text-anchor: middle;
+}
+
+.ph-yard { stroke: $ph-line; stroke-width: 2; }
+.ph-goal { stroke: rgba(17, 153, 158, 0.55); stroke-width: 4; }
+.ph-hash { stroke: $ph-line; stroke-width: 2; }
+
+.ph-num text {
+  fill: rgba(17, 153, 158, 0.35);
+  font-size: 22px;
+  font-weight: 700;
+  text-anchor: middle;
+}
+
+.ph-los { stroke: $ph-teal; stroke-width: 2; opacity: 0.7; }
+
+.ph-o circle { fill: #fff; stroke: $ph-ink; stroke-width: 2.5; }
+.ph-o .ph-key { stroke: $ph-teal; stroke-width: 3; }
+.ph-o .ph-key--star { fill: $ph-teal; }
+
+.ph-label {
+  fill: $ph-teal;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-anchor: middle;
+}
+
+.ph-x path {
+  fill: none;
+  stroke: rgba(64, 81, 78, 0.5);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+}
+
+.ph-route {
+  fill: none;
+  stroke: $ph-teal;
+  stroke-width: 3.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.ph-route--minor { stroke: rgba(64, 81, 78, 0.5); stroke-width: 2.5; }
+.ph-route--d { stroke: rgba(64, 81, 78, 0.3); stroke-width: 2; }
+
+.ph-route--star {
+  stroke-width: 4.5;
+  filter: drop-shadow(0 0 4px rgba(48, 227, 202, 0.8));
+}
+
+.ph-shift {
+  fill: none;
+  stroke: $ph-teal;
+  stroke-width: 2;
+  opacity: 0.5;
+}
+
+.ph-arrow { fill: $ph-teal; }
+.ph-arrow--minor { fill: rgba(64, 81, 78, 0.5); }
+.ph-arrow--d { fill: rgba(64, 81, 78, 0.3); }
+
+.ph-flight {
+  fill: none;
+  stroke: rgba(17, 153, 158, 0.6);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.ph-ball ellipse { fill: #8a4b24; }
+.ph-ball path { stroke: #fff; stroke-width: 1; }
+
+.ph-burst {
+  fill: none;
+  stroke: $ph-teal;
+  stroke-width: 3;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: ph-burst 0.6s ease-out 3.5s forwards;
+}
+
+/* Animation primitives; per-element timing comes from --d (delay) and --t (duration). */
+
+.ph-fade { animation: ph-fade 0.4s ease var(--d, 0s) both; }
+
+.ph-draw {
+  stroke-dasharray: 1;
+  animation: ph-draw var(--t, 0.6s) cubic-bezier(0.45, 0, 0.2, 1) var(--d, 0s) both;
+}
+
+.ph-pop {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: ph-pop 0.35s cubic-bezier(0.3, 1.5, 0.5, 1) var(--d, 0s) both;
+}
+
+@keyframes ph-fade { from { opacity: 0; } }
+@keyframes ph-out { from { opacity: 1; } to { opacity: 0; } }
+@keyframes ph-draw { from { stroke-dashoffset: 1; } }
+
+@keyframes ph-pop {
+  from { opacity: 0; transform: scale(0.2); }
+}
+
+@keyframes ph-burst {
+  from { opacity: 1; transform: scale(0.3); }
+  to { opacity: 0; transform: scale(1.8); }
+}
+
+@keyframes ph-chip {
+  from { opacity: 0; transform: translateY(8px) scale(0.9); }
+}
+
+@keyframes ph-wipe {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+
+/* Broadcast overlays */
+
+.ph-bug {
+  position: absolute;
+  top: 3.5%;
+  left: 2%;
+  display: flex;
+  overflow: hidden;
+  border: 1px solid $border-color;
+  border-radius: 4px;
+  background: #fff;
+  color: $ph-ink;
+  font-size: clamp(8px, 1.1vw, 11px);
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  animation: ph-fade 0.4s ease 0.2s both;
+
+  > span { padding: 0.3em 0.6em; }
+}
+
+.ph-bug__down {
+  background: $ph-teal;
+  color: #fff;
+}
+
+.ph-score {
+  position: relative;
+  display: inline-block;
+  min-width: 1.3em;
+  font-weight: 800;
+}
+
+.ph-score__old {
+  position: absolute;
+  left: 0;
+  opacity: 0;
+  animation: ph-out 0.3s ease 3.6s both;
+}
+
+.ph-score__new {
+  color: $ph-teal;
+  animation: ph-fade 0.3s ease 3.6s both;
+}
+
+.ph-chip-at { position: absolute; }
+.ph-chip-at--snap { right: 70.25%; top: 47.2%; transform: translateY(-50%); }
+.ph-chip-at--pitch { right: 70.5%; top: 26.7%; transform: translateY(-50%); }
+.ph-chip-at--pass { right: 62.5%; top: 58.9%; }
+.ph-chip-at--td { right: 1.5%; bottom: 21%; }
+
+.ph-chip {
+  max-width: 11em;
+  padding: 0.35em 0.6em;
+  border: 1px solid $border-color;
+  border-left: 3px solid $ph-teal;
+  border-radius: 6px;
+  background: #fff;
+  color: $ph-ink;
+  font-size: clamp(9px, 1.35vw, 12.5px);
+  line-height: 1.2;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+  animation: ph-chip 0.35s cubic-bezier(0.3, 1.4, 0.5, 1) var(--d, 0s) both;
+
+  span {
+    display: block;
+    font-size: 0.72em;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: $ph-teal;
+  }
+
+  strong {
+    display: block;
+    font-size: 1.2em;
+    font-weight: 800;
+    white-space: nowrap;
+  }
+
+  em {
+    display: block;
+    margin-top: 0.15em;
+    font-size: 0.78em;
+    font-style: normal;
+    opacity: 0.8;
+  }
+}
+
+.ph-chip--td {
+  border-color: $ph-teal;
+  background: $ph-teal;
+  color: #fff;
+
+  span { color: #d4fff8; }
+}
+
+.ph-lower-third {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1em;
+  padding: 0.7em 1em;
+  border-top: 3px solid $ph-mint;
+  color: #fff;
+  animation: ph-wipe 0.6s cubic-bezier(0.6, 0, 0.2, 1) var(--d, 0s) both;
+}
+
+.ph-lower-third__who {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.ph-lower-third__name {
+  font-size: 1.3em;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.ph-lower-third__title {
+  font-size: 0.75em;
+  color: #e0fffa;
+}
+
+.ph-lower-third__meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.4em;
+  flex-shrink: 0;
+}
+
+.ph-note {
+  font-size: 0.6em;
+  color: rgba(255, 255, 255, 0.75);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.ph-replay {
+  padding: 0.3em 0.8em;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 999px;
+  background: transparent;
+  color: #fff;
+  font-size: 0.7em;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+
+  &:hover,
+  &:focus-visible {
+    background: #fff;
+    color: $ph-teal;
+  }
+}
+
+@media (max-width: 600px) {
+  .ph-chip-at--snap,
+  .ph-chip-at--pitch,
+  .ph-note { display: none; }
+
+  .ph-chip em { display: none; }
+
+  .ph-lower-third { padding: 0.6em 0.75em; }
+  .ph-lower-third__name { font-size: 1.05em; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .play-hero,
+  .play-hero * { animation: none !important; }
+
+  .ph-burst,
+  .ph-replay { display: none; }
 }
