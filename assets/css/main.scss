@@ -511,3 +511,116 @@ $ph-mint: #30e3ca;
   .ph-burst,
   .ph-replay { display: none; }
 }
+
+/* ---------- TikTok gallery ---------- */
+
+.tt-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 1em;
+  margin: 1.5em 0;
+}
+
+.tt-card {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+  text-align: left;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.08);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+
+  &:hover,
+  &:focus-visible {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+    outline: none;
+  }
+}
+
+.tt-thumb-wrap {
+  position: relative;
+  display: block;
+  aspect-ratio: 9 / 16;
+  background: linear-gradient(160deg, $primary-color, darken($primary-color, 18%));
+
+  /* Placeholder until the thumbnail loads (or if TikTok can't be reached). */
+  &::before {
+    content: "TikTok";
+    position: absolute;
+    left: 0.75em;
+    bottom: 0.6em;
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 0.75em;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+}
+
+.tt-thumb {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.tt-card.has-thumb .tt-thumb { opacity: 1; }
+
+.tt-play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 52px;
+  height: 52px;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  transition: background 0.18s ease;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 54%;
+    transform: translate(-50%, -50%);
+    border-style: solid;
+    border-width: 9px 0 9px 15px;
+    border-color: transparent transparent transparent #fff;
+  }
+}
+
+.tt-card:hover .tt-play,
+.tt-card:focus-visible .tt-play {
+  background: $primary-color;
+}
+
+.tt-title {
+  display: -webkit-box;
+  padding: 0.55em 0.7em 0;
+  border-bottom: 0.7em solid transparent; /* not padding, so line-clamp hides the 3rd line */
+  overflow: hidden;
+  font-size: 0.85em;
+  font-weight: 600;
+  line-height: 1.3;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+
+  &:empty { display: none; }
+}
+
+.tt-frame {
+  display: block;
+  width: 100%;
+  aspect-ratio: 9 / 16;
+  border: 0;
+}
