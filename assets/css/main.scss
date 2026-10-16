@@ -516,9 +516,13 @@ $ph-mint: #30e3ca;
 
 .tt-gallery {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 1em;
   margin: 1.5em 0;
+}
+
+@media (max-width: 600px) {
+  .tt-gallery { grid-template-columns: repeat(2, 1fr); }
 }
 
 .tt-card {
