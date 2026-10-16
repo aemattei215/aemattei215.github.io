@@ -1,0 +1,21 @@
+{%- comment -%}
+  Usage: {% include tiktok-grid.html %}            all TikToks in _data/tiktoks.yml
+         {% include tiktok-grid.html limit=4 %}    first 4 only
+  Thumbnails and missing titles are filled in by assets/js/tiktok-grid.js,
+  because TikTok's thumbnail links expire after a couple of days.
+{%- endcomment -%}
+{%- assign tiktoks = site.data.tiktoks -%}
+{%- if include.limit -%}{%- assign tiktoks = tiktoks | slice: 0, include.limit -%}{%- endif -%}
+<div class="tt-gallery">
+{%- for t in tiktoks %}
+{%- assign tt_id = "" -%}
+{%- if t.url contains "/video/" -%}{%- assign tt_id = t.url | split: "/video/" | last | split: "?" | first -%}{%- endif %}
+<button type="button" class="tt-card" data-url="{{ t.url }}" data-id="{{ tt_id }}" aria-label="Play TikTok: {{ t.title | default: 'video' | escape }}">
+<span class="tt-thumb-wrap">
+<img class="tt-thumb" alt="" loading="lazy">
+<span class="tt-play" aria-hidden="true"></span>
+</span>
+<span class="tt-title">{{ t.title }}</span>
+</button>
+{%- endfor %}
+</div>
