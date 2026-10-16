@@ -11,10 +11,4 @@ Enjoy my personal content below, including my work with GW SBA's "Second Take" p
 
 {% include video-grid.html %}
 
-{% if site.data.tiktoks.size > 0 %}
-## Short-Form Research (TikTok) {#tiktok}
-
-{% include tiktok-grid.html %}
-{% endif %}
-
 [&larr; Back to portfolio]({{ '/' | relative_url }})
