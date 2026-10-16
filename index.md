@@ -41,6 +41,18 @@ The latest episodes of GW SBA's "Second Take" podcast, which I co-hosted with Ca
 
 <p class="section-more"><a href="{{ '/content/' | relative_url }}" class="btn btn--primary">See all {{ site.data.videos.size }} episodes &rarr;</a></p>
 
+{% if site.data.tiktoks.size > 0 %}
+### Short-Form Research
+
+Also, some selected analytical clips from my TikTok, [@ludis.sports](https://www.tiktok.com/@ludis.sports).
+
+{% include tiktok-grid.html limit=4 %}
+
+{% if site.data.tiktoks.size > 4 %}
+<p class="section-more"><a href="{{ '/content/#tiktok' | relative_url }}" class="btn btn--primary">See all {{ site.data.tiktoks.size }} TikToks &rarr;</a></p>
+{% endif %}
+{% endif %}
+
 </section>
 
 <section id="contact" class="portfolio-section" markdown="1">
