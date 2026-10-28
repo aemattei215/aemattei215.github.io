@@ -1,4 +1,12 @@
 # Newest/best first. The home page shows the first 4; /dataviz/ shows them all.
+- title: "FEATURED: NFL Analytics"
+  description: "Visualizing traditional NFL logic using advanced metrics and play-by-play data. Large scale project"
+  image: /assets/images/pynbpp7.jpg
+  url: /datavizprojects/midtermproject/midtermcode.html
+- title: "Annotating Financial Data"
+  description: "Creating well-developed, annotated, and labeled visualizations of Meta, Google, and OpenAI stock performance."
+  image: /assets/images/pynbpp6.jpg
+  url: /datavizprojects/hw7/hw7code.html
 - title: "Comparing Olympic Groups"
   description: "Developing various comparative visualizations across gender, country, and year competed of Olympic athletes."
   image: /assets/images/pynbpp5.jpg
