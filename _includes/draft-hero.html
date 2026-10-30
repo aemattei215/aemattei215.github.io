@@ -1,0 +1,63 @@
+{% assign draft_words = site.author.name | split: " " %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,800;1,800&display=swap">
+
+<section class="draft-hero" aria-label="{{ site.author.name }}">
+  <div class="draft-hero__lights" aria-hidden="true"></div>
+
+  <div class="draft-card">
+    <div class="draft-card__photo" aria-hidden="true">
+      <span class="draft-card__watermark">{% for word in draft_words %}{{ word | slice: 0 }}{% endfor %}</span>
+    </div>
+    <video class="draft-card__me draft-card__clip" muted loop playsinline preload="auto" width="464" height="854">
+      <source src="{{ '/assets/video/draft-loop.webm' | relative_url }}" type="video/webm">
+    </video>
+    <img class="draft-card__me draft-card__still" src="{{ '/assets/images/draft-loop.webp' | relative_url }}" alt="{{ site.author.name }} tossing a football" hidden>
+
+    <div class="draft-card__info">
+      <div class="draft-card__pick">
+        <span class="draft-card__pick-no">1</span>
+        <span class="draft-card__pick-text">Round 1 <i></i> Pick 1</span>
+        <span class="draft-card__school">George Washington</span>
+      </div>
+      <p class="draft-card__name" aria-hidden="true">
+        <span class="draft-card__first"><span>{{ draft_words | first }}</span></span>
+        <span class="draft-card__last"><span>{{ draft_words | last }}</span></span>
+      </p>
+      <dl class="draft-card__facts">
+        <div style="--i: 0"><dt>Specialization</dt><dd>{{ site.description }}</dd></div>
+        <div style="--i: 1"><dt>School</dt><dd>George Washington University</dd></div>
+        <div style="--i: 2"><dt>Majors</dt><dd>Statistics &amp; Data Science</dd></div>
+        <div style="--i: 3"><dt>Based</dt><dd>{{ site.author.location }}</dd></div>
+      </dl>
+    </div>
+  </div>
+
+  <div class="draft-hero__banner" aria-hidden="true">
+    <p>The pick is in</p>
+  </div>
+
+  <div class="draft-hero__ticker" aria-hidden="true">
+    <span class="draft-hero__ticker-label">Profile</span>
+    <div class="draft-hero__ticker-window">
+      <div class="draft-hero__ticker-track">
+        {%- for pass in (1..2) -%}
+          <span>President, GW Sports Business Association</span>
+          <span>Student Analytics Manager, GW Baseball</span>
+          <span>Peer Tutor, GW Academic Commons</span>
+          <span>Co-host, &ldquo;Second Take&rdquo; Podcast</span>
+          <span>Sports Research on TikTok, @ludis.sports</span>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+
+  <audio class="draft-hero__audio" src="{{ '/assets/audio/draft-pick.mp3' | relative_url }}" preload="auto"></audio>
+  <button class="draft-hero__sound" type="button" hidden>
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4zm12.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg>
+    Replay with sound
+  </button>
+
+  <a class="draft-hero__cue" href="#about" aria-label="Scroll to About Me"></a>
+</section>
