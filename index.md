@@ -2,10 +2,11 @@
 layout: single
 title: "Welcome to My Portfolio"
 author_profile: true
-classes: has-play-hero
+classes: has-cover-hero
+header:
+  og_image: /assets/images/githubpfp.jpg
+  cover: draft
 ---
-
-{% include play-hero.html %}
 
 <section id="about" class="portfolio-section" markdown="1">
 
