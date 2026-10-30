@@ -21,6 +21,18 @@
     still.hidden = false;
   }
 
+  // iPhone and Safari leave a blank box for a WebM that has transparency.
+  // The animated WebP is the picture those browsers can actually show.
+  function canPlayAlphaWebm(video) {
+    var ua = navigator.userAgent || "";
+    var iOS = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+    if (iOS) return false;
+    var safari = /Safari\//.test(ua) && !/Chrome|Chromium|CriOS|Edg|OPR|Android/.test(ua);
+    if (safari) return false;
+    var support = video.canPlayType('video/webm; codecs="vp9"');
+    return support === "probably" || support === "maybe";
+  }
+
   function startClip(delay) {
     if (!clip || clip.hidden) return;
     clearTimeout(clipTimer);
@@ -28,14 +40,20 @@
     try { clip.currentTime = 0; } catch (err) {}
     clipTimer = setTimeout(function () {
       var attempt = clip.play();
-      if (attempt) attempt.catch(function () {});
+      if (!attempt) return;
+      attempt.then(function () {
+        if (!clip.videoWidth) useStill();
+      }).catch(function () {
+        useStill();
+      });
     }, delay);
   }
 
   if (clip) {
     clip.muted = true;
     clip.addEventListener("error", useStill);
-    if (reduceMotion) startClip(0);
+    if (!canPlayAlphaWebm(clip)) useStill();
+    else if (reduceMotion) startClip(0);
     else startClip(REVEAL_MS);
   }
 
@@ -45,10 +63,13 @@
     if (attempt) attempt.catch(function () {});
   }
 
+  // The button only appears once the mp3 is actually there.
   audio.addEventListener("canplaythrough", function () {
     button.hidden = false;
   }, { once: true });
 
+  // Most browsers block sound until the visitor interacts with the page;
+  // when they do, this fails silently and the button covers it.
   if (!reduceMotion) setTimeout(playChime, BANNER_DELAY_MS);
 
   button.addEventListener("click", function () {
