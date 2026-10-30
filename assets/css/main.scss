@@ -165,18 +165,13 @@
   border: 0;
 }
 
-/* ---------- Home page hero: Philly Special play diagram ---------- */
+/* ---------- Home page cover: draft night card ---------- */
 
-$ph-field-a: #e9f4f2;
-$ph-field-b: #e2efed;
-$ph-line: rgba(17, 153, 158, 0.22);
-$ph-ink: $text-color;
-$ph-teal: $primary-color;
-$ph-mint: #30e3ca;
+$cover-ink: #0b2a2c;
+$cover-mint: #30e3ca;
+$cover-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
 
-/* Visually hide the "Welcome to My Portfolio" heading on the home page; the
-   hero's name banner takes its place, but screen readers still get the h1. */
-.has-play-hero .page__title {
+.has-cover-hero .page__title {
   position: absolute !important;
   width: 1px;
   height: 1px;
@@ -185,331 +180,541 @@ $ph-mint: #30e3ca;
   white-space: nowrap;
 }
 
-.play-hero {
-  margin: 0 0 2em;
-  border: 1px solid $border-color;
-  border-radius: 12px;
-  overflow: hidden;
-  background: $ph-teal;
-  box-shadow: 0 6px 24px rgba(17, 153, 158, 0.12);
-}
+$draft-font: "Barlow Condensed", "Arial Narrow", $sans-serif;
+$draft-black: #0a0c0f;
+$draft-team: #004c54;
+$draft-team-dark: #00262b;
+$draft-silver: #a5acaf;
+$draft-paper: #f6f7f8;
+$draft-ticker: 46px;
 
-.ph-field {
+.draft-hero {
   position: relative;
-  aspect-ratio: 800 / 360;
-  background: repeating-linear-gradient(90deg, $ph-field-a 0 12.5%, $ph-field-b 12.5% 25%);
+  height: clamp(540px, 86vh, 880px);
+  margin-bottom: 2em;
+  overflow: hidden;
+  background: radial-gradient(ellipse at 50% -10%, #2a3238 0%, #12161a 50%, $draft-black 100%);
+  color: #fff;
+  font-family: $draft-font;
+  animation: cover-fade 0.5s ease both;
 }
 
-.ph-svg {
+.draft-hero__lights {
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
+  pointer-events: none;
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    top: -30%;
+    width: 24%;
+    height: 160%;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.16), transparent 60%);
+    filter: blur(26px);
+    transform-origin: 50% 0;
+  }
+
+  &::before {
+    left: 14%;
+    animation: draft-beam-l 3.2s cubic-bezier(0.3, 0, 0.2, 1) both;
+  }
+
+  &::after {
+    right: 14%;
+    animation: draft-beam-r 3.2s cubic-bezier(0.3, 0, 0.2, 1) both;
+  }
 }
 
-.ph-endzone { fill: rgba(17, 153, 158, 0.1); }
+.draft-card {
+  position: absolute;
+  top: 17%;
+  bottom: calc(#{$draft-ticker} + 7%);
+  left: 4%;
+  right: 4%;
+  max-width: 1160px;
+  margin: 0 auto;
+  animation: draft-card-in 0.55s $cover-ease 4.7s both;
+}
 
-.ph-endzone__label {
-  fill: rgba(17, 153, 158, 0.3);
-  font-size: 16px;
+.draft-card__photo {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 42%;
+  overflow: hidden;
+  border-radius: 4px 0 0 4px;
+  background:
+    repeating-linear-gradient(-55deg, transparent 0 18px, rgba(255, 255, 255, 0.035) 18px 36px),
+    linear-gradient(160deg, #0b6973 0%, $draft-team 45%, $draft-team-dark 100%);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+  animation: draft-panel 0.6s cubic-bezier(0.6, 0, 0.2, 1) 4.8s both;
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 6px;
+    background: $draft-silver;
+  }
+}
+
+.draft-card__watermark {
+  position: absolute;
+  right: -0.08em;
+  bottom: -0.2em;
+  font-size: clamp(9rem, 22vw, 20rem);
   font-weight: 800;
-  letter-spacing: 0.3em;
-  text-anchor: middle;
+  font-style: italic;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 2px rgba(255, 255, 255, 0.1);
 }
 
-.ph-yard { stroke: $ph-line; stroke-width: 2; }
-.ph-goal { stroke: rgba(17, 153, 158, 0.55); stroke-width: 4; }
-.ph-hash { stroke: $ph-line; stroke-width: 2; }
-
-.ph-num text {
-  fill: rgba(17, 153, 158, 0.35);
-  font-size: 22px;
-  font-weight: 700;
-  text-anchor: middle;
+.draft-card__me {
+  position: absolute;
+  left: 21%;
+  bottom: 6px;
+  height: 118%;
+  width: auto;
+  max-width: none;
+  pointer-events: none;
+  background: transparent;
+  object-fit: contain;
+  object-position: center bottom;
+  filter: drop-shadow(0 14px 24px rgba(0, 0, 0, 0.5));
+  transform: translateX(-50%);
+  animation: draft-me 0.9s $cover-ease 5.05s both;
 }
 
-.ph-los { stroke: $ph-teal; stroke-width: 2; opacity: 0.7; }
+.draft-card__info {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 42%;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 4% 0 5%;
+  border-radius: 0 4px 4px 0;
+  background: $draft-paper;
+  color: $draft-black;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+  animation: draft-info 0.6s cubic-bezier(0.6, 0, 0.2, 1) 4.9s both;
+}
 
-.ph-o circle { fill: #fff; stroke: $ph-ink; stroke-width: 2.5; }
-.ph-o .ph-key { stroke: $ph-teal; stroke-width: 3; }
-.ph-o .ph-key--star { fill: $ph-teal; }
+.draft-card__pick {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: stretch;
+  height: 2.6em;
+  background: $draft-black;
+  color: #fff;
+  font-size: clamp(0.85em, 1.3vw, 1.05em);
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  animation: cover-wipe 0.5s cubic-bezier(0.6, 0, 0.2, 1) 5.25s both;
 
-.ph-label {
-  fill: $ph-teal;
-  font-size: 14px;
+  i {
+    display: inline-block;
+    width: 1px;
+    height: 1em;
+    margin: 0 0.8em;
+    background: rgba(255, 255, 255, 0.35);
+    vertical-align: -0.12em;
+  }
+}
+
+.draft-card__pick-no {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.6em;
+  background: $draft-team;
+  font-size: 1.15em;
+  font-style: italic;
+  letter-spacing: 0;
+}
+
+.draft-card__pick-text {
+  display: flex;
+  align-items: center;
+  padding: 0 1em;
+}
+
+.draft-card__school {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  padding: 0 0.95em 0 0.4em;
+  color: $draft-silver;
+  font-style: italic;
   font-weight: 800;
   letter-spacing: 0.08em;
-  text-anchor: middle;
+  white-space: nowrap;
 }
 
-.ph-x path {
-  fill: none;
-  stroke: rgba(64, 81, 78, 0.5);
-  stroke-width: 2.5;
-  stroke-linecap: round;
+.draft-card__name {
+  margin: 1.2em 0 0.1em;
+  line-height: 0.88;
+  text-transform: uppercase;
+
+  > span {
+    display: block;
+    overflow: hidden;
+  }
+
+  > span > span {
+    display: inline-block;
+    animation: cover-letter 0.8s $cover-ease 5.4s both;
+  }
 }
 
-.ph-route {
-  fill: none;
-  stroke: $ph-teal;
-  stroke-width: 3.5;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+.draft-card__first {
+  font-size: clamp(1.6rem, 3vw, 2.8rem);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #4a5258;
 }
 
-.ph-route--minor { stroke: rgba(64, 81, 78, 0.5); stroke-width: 2.5; }
-.ph-route--d { stroke: rgba(64, 81, 78, 0.3); stroke-width: 2; }
+.draft-card__last {
+  font-size: clamp(3.4rem, 8vw, 7.6rem);
+  font-weight: 800;
+  font-style: italic;
+  letter-spacing: -0.01em;
 
-.ph-route--star {
-  stroke-width: 4.5;
-  filter: drop-shadow(0 0 4px rgba(48, 227, 202, 0.8));
+  > span { animation-delay: 5.52s !important; }
 }
 
-.ph-shift {
-  fill: none;
-  stroke: $ph-teal;
-  stroke-width: 2;
-  opacity: 0.5;
+.draft-card__facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  max-width: 36em;
+  margin: 0.9em 0 0;
+  border-top: 2px solid $draft-black;
+
+  div {
+    padding: 0.6em 0.8em 0.5em 0;
+    animation: draft-rise 0.5s ease calc(5.7s + var(--i) * 0.1s) both;
+  }
+
+  div:nth-child(even) {
+    padding-left: 0.9em;
+    border-left: 1px solid #d5d9dc;
+  }
+
+  div:nth-child(n + 3) { border-top: 1px solid #d5d9dc; }
+
+  dt {
+    font-size: clamp(0.7em, 0.95vw, 0.85em);
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #6b747a;
+  }
+
+  dd {
+    margin: 0.15em 0 0;
+    font-size: clamp(1em, 1.45vw, 1.3em);
+    font-weight: 600;
+    line-height: 1.15;
+  }
 }
 
-.ph-arrow { fill: $ph-teal; }
-.ph-arrow--minor { fill: rgba(64, 81, 78, 0.5); }
-.ph-arrow--d { fill: rgba(64, 81, 78, 0.3); }
+.draft-hero__banner {
+  position: absolute;
+  inset: 0 0 $draft-ticker;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
 
-.ph-flight {
-  fill: none;
-  stroke: rgba(17, 153, 158, 0.6);
-  stroke-width: 2;
-  stroke-linecap: round;
+  p {
+    width: 130%;
+    margin: 0;
+    padding: 0.16em 0 0.1em;
+    border-top: 5px solid #fff;
+    border-bottom: 5px solid #fff;
+    background: $draft-black;
+    box-shadow: inset 0 9px 0 $draft-team, inset 0 -9px 0 $draft-team, 0 20px 60px rgba(0, 0, 0, 0.6);
+    color: #fff;
+    font-size: clamp(2.6rem, 9vw, 8rem);
+    font-weight: 800;
+    font-style: italic;
+    line-height: 1;
+    letter-spacing: 0.02em;
+    text-align: center;
+    text-transform: uppercase;
+    white-space: nowrap;
+    /* 5s = 0.38s in, 4.18s hold (the trimmed chime), 0.44s out.
+       Delay 0.25s. The chime starts when the banner lands, at 0.63s. */
+    animation: draft-banner 5s linear 0.25s both;
+  }
 }
 
-.ph-ball ellipse { fill: #8a4b24; }
-.ph-ball path { stroke: #fff; stroke-width: 1; }
-
-.ph-burst {
-  fill: none;
-  stroke: $ph-teal;
-  stroke-width: 3;
-  opacity: 0;
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: ph-burst 0.6s ease-out 3.5s forwards;
+.draft-hero__ticker {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  display: flex;
+  height: $draft-ticker;
+  border-top: 3px solid $draft-silver;
+  background: $draft-black;
+  font-size: 1.05em;
+  animation: draft-ticker-in 0.5s $cover-ease 6.05s both;
 }
 
-/* Animation primitives; per-element timing comes from --d (delay) and --t (duration). */
-
-.ph-fade { animation: ph-fade 0.4s ease var(--d, 0s) both; }
-
-.ph-draw {
-  stroke-dasharray: 1;
-  animation: ph-draw var(--t, 0.6s) cubic-bezier(0.45, 0, 0.2, 1) var(--d, 0s) both;
+.draft-hero__ticker-label {
+  display: flex;
+  align-items: center;
+  padding: 0 1.3em;
+  background: $draft-team;
+  font-weight: 800;
+  font-style: italic;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
 
-.ph-pop {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: ph-pop 0.35s cubic-bezier(0.3, 1.5, 0.5, 1) var(--d, 0s) both;
+.draft-hero__ticker-window {
+  flex: 1;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent);
 }
 
-@keyframes ph-fade { from { opacity: 0; } }
-@keyframes ph-out { from { opacity: 1; } to { opacity: 0; } }
-@keyframes ph-draw { from { stroke-dashoffset: 1; } }
+.draft-hero__ticker-track {
+  display: flex;
+  width: max-content;
+  height: 100%;
+  align-items: center;
+  animation: draft-scroll 45s linear 6.2s infinite;
 
-@keyframes ph-pop {
-  from { opacity: 0; transform: scale(0.2); }
+  span {
+    padding: 0 1.4em;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    white-space: nowrap;
+
+    &::before {
+      content: "";
+      display: inline-block;
+      width: 0.4em;
+      height: 0.4em;
+      margin-right: 1.4em;
+      background: $cover-mint;
+      transform: rotate(45deg) translateY(-0.15em);
+    }
+  }
 }
 
-@keyframes ph-burst {
-  from { opacity: 1; transform: scale(0.3); }
-  to { opacity: 0; transform: scale(1.8); }
+.draft-hero__sound {
+  position: absolute;
+  top: 1.2em;
+  right: 3vw;
+  z-index: 4;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  padding: 0.45em 0.95em;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.35);
+  color: #fff;
+  font-family: $draft-font;
+  font-size: 0.95em;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  animation: cover-fade 0.6s ease 6.3s both;
+
+  &[hidden] { display: none; }
+
+  svg {
+    width: 1.1em;
+    height: 1.1em;
+    fill: currentColor;
+  }
+
+  &:hover,
+  &:focus-visible {
+    border-color: #fff;
+    background: rgba(255, 255, 255, 0.12);
+  }
 }
 
-@keyframes ph-chip {
-  from { opacity: 0; transform: translateY(8px) scale(0.9); }
+.draft-hero__cue {
+  position: absolute;
+  right: 3vw;
+  bottom: calc(#{$draft-ticker} + 2vh);
+  z-index: 2;
+  width: 2.4em;
+  height: 2.4em;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  animation: cover-fade 0.6s ease 6.45s both, cover-bob 1.4s ease-in-out 7s 3;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 38%;
+    left: 50%;
+    width: 0.55em;
+    height: 0.55em;
+    border-right: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
+
+  &:hover,
+  &:focus-visible { border-color: #fff; }
 }
 
-@keyframes ph-wipe {
+@keyframes cover-fade {
+  from { opacity: 0; }
+}
+
+@keyframes cover-letter {
+  from { opacity: 0; transform: translateY(70%); }
+}
+
+@keyframes cover-wipe {
   from { clip-path: inset(0 100% 0 0); }
   to { clip-path: inset(0 0 0 0); }
 }
 
-/* Broadcast overlays */
-
-.ph-bug {
-  position: absolute;
-  top: 3.5%;
-  left: 2%;
-  display: flex;
-  overflow: hidden;
-  border: 1px solid $border-color;
-  border-radius: 4px;
-  background: #fff;
-  color: $ph-ink;
-  font-size: clamp(8px, 1.1vw, 11px);
-  font-weight: 800;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
-  animation: ph-fade 0.4s ease 0.2s both;
-
-  > span { padding: 0.3em 0.6em; }
+@keyframes cover-bob {
+  50% { transform: translateY(6px); }
 }
 
-.ph-bug__down {
-  background: $ph-teal;
-  color: #fff;
+@keyframes draft-beam-l {
+  from { opacity: 0; transform: rotate(-35deg); }
+  30% { opacity: 1; }
+  to { transform: rotate(-12deg); }
 }
 
-.ph-score {
-  position: relative;
-  display: inline-block;
-  min-width: 1.3em;
-  font-weight: 800;
+@keyframes draft-beam-r {
+  from { opacity: 0; transform: rotate(35deg); }
+  30% { opacity: 1; }
+  to { transform: rotate(12deg); }
 }
 
-.ph-score__old {
-  position: absolute;
-  left: 0;
-  opacity: 0;
-  animation: ph-out 0.3s ease 3.6s both;
+@keyframes draft-banner {
+  0% {
+    visibility: visible;
+    transform: translateX(-110%) skewY(-4deg);
+    animation-timing-function: cubic-bezier(0.7, 0, 0.2, 1);
+  }
+  7.6% {
+    transform: translateX(0) skewY(-4deg);
+    animation-timing-function: linear;
+  }
+  91.2% {
+    transform: translateX(0) skewY(-4deg);
+    animation-timing-function: cubic-bezier(0.7, 0, 0.2, 1);
+  }
+  100% {
+    visibility: hidden;
+    transform: translateX(110%) skewY(-4deg);
+  }
 }
 
-.ph-score__new {
-  color: $ph-teal;
-  animation: ph-fade 0.3s ease 3.6s both;
+@keyframes draft-card-in {
+  from { opacity: 0; transform: translateY(16px); }
 }
 
-.ph-chip-at { position: absolute; }
-.ph-chip-at--snap { right: 70.25%; top: 47.2%; transform: translateY(-50%); }
-.ph-chip-at--pitch { right: 70.5%; top: 26.7%; transform: translateY(-50%); }
-.ph-chip-at--pass { right: 62.5%; top: 58.9%; }
-.ph-chip-at--td { right: 1.5%; bottom: 21%; }
+@keyframes draft-panel {
+  from { clip-path: inset(100% 0 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
 
-.ph-chip {
-  max-width: 11em;
-  padding: 0.35em 0.6em;
-  border: 1px solid $border-color;
-  border-left: 3px solid $ph-teal;
-  border-radius: 6px;
-  background: #fff;
-  color: $ph-ink;
-  font-size: clamp(9px, 1.35vw, 12.5px);
-  line-height: 1.2;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
-  animation: ph-chip 0.35s cubic-bezier(0.3, 1.4, 0.5, 1) var(--d, 0s) both;
+@keyframes draft-info {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
 
-  span {
-    display: block;
-    font-size: 0.72em;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: $ph-teal;
+@keyframes draft-me {
+  from { opacity: 0; transform: translateX(-50%) translateY(12%); }
+}
+
+@keyframes draft-rise {
+  from { opacity: 0; transform: translateY(10px); }
+}
+
+@keyframes draft-ticker-in {
+  from { transform: translateY(100%); }
+}
+
+@keyframes draft-scroll {
+  to { transform: translateX(-50%); }
+}
+
+@media (max-width: 800px) {
+  .draft-hero { height: clamp(660px, 88vh, 820px); }
+
+  .draft-card {
+    top: 13%;
+    bottom: calc(#{$draft-ticker} + 4%);
+    left: 5%;
+    right: 5%;
   }
 
-  strong {
-    display: block;
-    font-size: 1.2em;
-    font-weight: 800;
-    white-space: nowrap;
+  .draft-card__photo {
+    bottom: 54%;
+    width: 100%;
+    border-radius: 4px 4px 0 0;
   }
 
-  em {
-    display: block;
-    margin-top: 0.15em;
+  .draft-card__me {
+    left: 50%;
+    bottom: calc(54% + 6px);
+    height: 56%;
+  }
+
+  .draft-card__info {
+    top: 46%;
+    left: 0;
+    justify-content: flex-start;
+    padding: 0 5% 0.6em;
+    border-radius: 0 0 4px 4px;
+  }
+
+  .draft-card__pick {
     font-size: 0.78em;
-    font-style: normal;
-    opacity: 0.8;
+    letter-spacing: 0.06em;
   }
-}
 
-.ph-chip--td {
-  border-color: $ph-teal;
-  background: $ph-teal;
-  color: #fff;
+  .draft-card__school { letter-spacing: 0.04em; }
 
-  span { color: #d4fff8; }
-}
+  .draft-card__name { margin-top: 2.6em; }
+  .draft-card__first { font-size: 7vw; }
+  .draft-card__last { font-size: 16vw; }
+  .draft-card__facts dd { font-size: 0.95em; }
 
-.ph-lower-third {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1em;
-  padding: 0.7em 1em;
-  border-top: 3px solid $ph-mint;
-  color: #fff;
-  animation: ph-wipe 0.6s cubic-bezier(0.6, 0, 0.2, 1) var(--d, 0s) both;
-}
-
-.ph-lower-third__who {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  min-width: 0;
-}
-
-.ph-lower-third__name {
-  font-size: 1.3em;
-  font-weight: 800;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-}
-
-.ph-lower-third__title {
-  font-size: 0.75em;
-  color: #e0fffa;
-}
-
-.ph-lower-third__meta {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 0.4em;
-  flex-shrink: 0;
-}
-
-.ph-note {
-  font-size: 0.6em;
-  color: rgba(255, 255, 255, 0.75);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-}
-
-.ph-replay {
-  padding: 0.3em 0.8em;
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  border-radius: 999px;
-  background: transparent;
-  color: #fff;
-  font-size: 0.7em;
-  cursor: pointer;
-  transition: background 0.15s ease, color 0.15s ease;
-
-  &:hover,
-  &:focus-visible {
-    background: #fff;
-    color: $ph-teal;
-  }
-}
-
-@media (max-width: 600px) {
-  .ph-chip-at--snap,
-  .ph-chip-at--pitch,
-  .ph-note { display: none; }
-
-  .ph-chip em { display: none; }
-
-  .ph-lower-third { padding: 0.6em 0.75em; }
-  .ph-lower-third__name { font-size: 1.05em; }
+  .draft-card__watermark { font-size: 40vw; }
+  .draft-hero__banner p { font-size: 13vw; }
+  .draft-hero__sound { top: 0.8em; font-size: 0.8em; }
+  .draft-hero__cue { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .play-hero,
-  .play-hero * { animation: none !important; }
+  .draft-hero,
+  .draft-hero * { animation: none !important; }
 
-  .ph-burst,
-  .ph-replay { display: none; }
+  .draft-hero__banner { display: none; }
 }
 
 /* ---------- TikTok gallery ---------- */
