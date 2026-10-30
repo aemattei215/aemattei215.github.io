@@ -5,6 +5,7 @@ author_profile: true
 classes: has-cover-hero
 header:
   og_image: /assets/images/githubpfp.jpg
+  image: /assets/images/githubpfp.jpg
   cover: draft
 ---
 
