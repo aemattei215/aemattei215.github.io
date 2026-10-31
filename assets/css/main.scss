@@ -291,6 +291,10 @@ $draft-ticker: 46px;
   animation: draft-me 0.9s $cover-ease 5.05s both;
 }
 
+.draft-card__still {
+  filter: none;
+}
+
 .draft-card__info {
   position: absolute;
   top: 0;
@@ -682,6 +686,7 @@ $draft-ticker: 46px;
     left: 50%;
     bottom: calc(54% + 6px);
     height: 56%;
+    filter: none;
   }
 
   .draft-card__info {
